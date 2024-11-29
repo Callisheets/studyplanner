@@ -1,26 +1,31 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './homepage/home.jsx';
-import LoginPage from './login/login.jsx';
-import SignupPage from './login/signup.jsx';
-import CalendarPage from './calendar/calendar.jsx';
-import Files from './files/files.jsx';
-import Flashcards from './flashcards/flashcards.jsx';
-import Schedule from './schedule/schedule.jsx';
+import React, { useEffect, useState } from 'react';
 
 function App() {
+    const [backendData, setBackendData] = useState([{}]);
+
+    useEffect(() => {
+      fetch('http://localhost:5000/api')
+          .then(response => {
+              if (!response.ok) {
+                  return response.text().then(text => { // Get error response body
+                      throw new Error(`Network response was not ok: ${response.status} - ${text}`);
+                  });
+              }
+              return response.json();
+          })
+          .then(data => {
+              setBackendData(data);
+          })
+          .catch(error => {
+              console.error('Error fetching data:', error);
+          });
+  }, []);
+
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SignupPage />} />
-                <Route path="/calendar" element={<CalendarPage />} />
-                <Route path="/files" element={<Files />} />
-                <Route path="/flashcards" element={<Flashcards />} />
-                <Route path="/schedule" element={<Schedule />} />
-            </Routes>
-        </Router>
+        <div>
+            <h1>Welcome to the App</h1>
+            {/* Render your backend data or other components here */}
+        </div>
     );
 }
 
