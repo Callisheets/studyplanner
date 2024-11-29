@@ -1,0 +1,88 @@
+.home-button {
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
+    padding: 8px 12px; /* Padding for the button */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Bold font */
+    cursor: pointer; /* Pointer cursor */
+    margin-left: 10px; /* Space between month controls and home button */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.home-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.datepicker {
+    width: 100%; /* Full width */
+    max-width: 500px; /* Maximum width */
+    margin: 20px auto; /* Center the calendar */
+    border: 1px solid #ccc; /* Border around the calendar */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: white; /* Background color */
+    height: auto; /* Allow height to adjust based on content */
+}
+
+.datepicker-top {
+    display: flex; /* Flexbox for top section */
+    justify-content: space-between; /* Space between elements */
+    align-items: center; /* Center items vertically */
+    padding: 10px 15px; /* Padding for top section */
+    border-bottom: 1px solid #ccc; /* Bottom border */
+}
+
+.month-name {
+    font-size: 1.5em; /* Larger font size for month name */
+    font-weight: bold; /* Bold font */
+}
+
+.arrow {
+    background: none; /* No background */
+    border: none; /* No border */
+    font-size: 1.5em; /* Increase font size */
+    cursor: pointer; /* Pointer cursor */
+}
+
+.datepicker-calendar {
+    display: flex;
+    flex-direction: column; /* Column layout */
+}
+
+.header {
+    display: flex; /* Flexbox for header */
+    background-color: #f7f7f7; /* Header background color */
+}
+
+.day {
+    flex: 1; /* Equal width for days */
+    padding: 8px; /* Padding for day cells */
+    text-align: center; /* Center text */
+    font-weight: bold; /* Bold font for days of the week */
+}
+
+.body {
+    display: flex; /* Flexbox for body */
+    flex-wrap: wrap; /* Wrap days to next line */
+}
+
+.date {
+    flex: 1 0 14%; /* 7 days in a week, 14% width */
+    padding: 15px; /* Adjusted padding for date cells */
+    text-align: center; /* Center text */
+    border: 1px solid #e0e0e0; /* Border around each date */
+    box-sizing: border-box; /* Include padding in width */
+    min-height: 60px; /* Set a minimum height for date cells */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+.current-day {
+    background-color: #28a745; /* Highlight current day */
+    color: white; /* White text for current day */
+}
+
+.date:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+}
