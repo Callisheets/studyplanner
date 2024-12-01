@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "proxy": "http://localhost:5000",
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "node --watch --env-file=.env server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,10 +14,17 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "jsonwebtoken": "^9.0.2"
+    "helmet": "^8.0.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.3",
+    "nodemailer": "^6.9.16"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
