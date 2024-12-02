@@ -1,98 +1,151 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './home.css'; // Import the CSS file
+import React, { useState,  useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './home.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faSearch, faBell, faCog, faHome, faCalendarAlt, faFolder, faBookOpen, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+
 
 const HomePage = () => {
-    const [taskInput, setTaskInput] = useState('');
-    const [tasks, setTasks] = useState([]);
-    const [activeSidebarItem, setActiveSidebarItem] = useState('home');
-    const [isSidebarVisible, setIsSidebarVisible] = useState(true); // State to manage sidebar visibility
+    const [noteInput, setNoteInput] = useState('')
+    const [notes, setNotes] = useState([]);
+    const [activeSidebarItem, setActiveSidebarItem] = useState('home'); 
+    const [isSidebarVisible, setIsSidebarVisible] = useState(true); 
+    const navigate = useNavigate(); 
+
+    const handleAddNote = () => {
+        if (noteInput.trim()) {
+            setNotes([...notes, noteInput]);
+            setNoteInput('');
+        }
+    };
+
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.removeItem('token');
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
+    const setActive = (element) => {
+        // Remove active class from all sidebar items
+        const items = document.querySelectorAll('.sidebar li');
+        items.forEach(item => item.classList.remove('active'));
+        
+        // Add active class to the clicked item
+        element.classList.add('active');
+    };
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include', 
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data.success) {               
+                navigate('/login');
+            } else {
+                console.error(data.message);
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    };
+
 
     const handleAddTask = () => {
         if (taskInput.trim()) {
-            setTasks([...tasks, taskInput.trim()]);
+            setTasks([...tasks, taskInput]);
             setTaskInput('');
         }
     };
 
+    
     const handleRemoveTask = (index) => {
-        const newTasks = tasks.filter((_, taskIndex) => taskIndex !== index);
-        setTasks(newTasks);
+        const newTasks = tasks.filter((_, i) => i !== index);
     };
 
+  
     const handleSidebarItemClick = (item) => {
-        setActiveSidebarItem(item);
-    };
-
-    const toggleSidebar = () => {
-        setIsSidebarVisible(!isSidebarVisible); // Toggle sidebar visibility
+        setActiveSidebarItem(item); 
     };
 
     return (
         <div>
             <header className="topbar">
                 <div className="left-icons">
-                    <button className="hamburger" id="hamburger" onClick={toggleSidebar}>
-                        &#9776;
+                    <button className="hamburger" id="hamburger">
+                        <FontAwesomeIcon icon={faBars} />
                     </button>
-                    <span className="icon rocket">🚀</span>
+                    <img src="logo.png" alt="Logo" className="logo-icon" />
                 </div>
-                <div className="top-right">
+                <div className="search-container">
+                    <button className="search-icon">
+                        <FontAwesomeIcon icon={faSearch} />
+                    </button>
                     <input type="text" className="search-bar" placeholder="Search..." />
-                    <button className="icon">🔔</button>
-                    <button className="icon">⚙️</button>
+                </div>
+                <div className="right-icons">
+                    <button className="notification-icon">
+                        <FontAwesomeIcon icon={faBell} />
+                    </button>
+                    <button className="settings-icon">
+                        <FontAwesomeIcon icon={faCog} />
+                    </button>
                 </div>
             </header>
 
             <div className="container">
-                {isSidebarVisible && ( // Render sidebar only if visible
-                    <nav className="sidebar" id="sidebar">
-                        <ul>
-                            <li id="home" className={activeSidebarItem === 'home' ? 'active' : ''} onClick={() => handleSidebarItemClick('home')}>
-                                <Link to="/">🏠 Home</Link>
-                            </li>
-                            <li id="calendar" className={activeSidebarItem === 'calendar' ? 'active' : ''} onClick={() => handleSidebarItemClick('calendar')}>
-                                <Link to="/calendar">📅 Calendar</Link>
-                            </li>
-                            <li id="files" className={activeSidebarItem === 'files' ? 'active' : ''} onClick={() => handleSidebarItemClick('files')}>
-                                <Link to="/files">📁 Files</Link>
-                            </li>
-                            <li id="flashcards" className={activeSidebarItem === 'flashcards' ? 'active' : ''} onClick={() => handleSidebarItemClick('flashcards')}>
-                                <Link to="/flashcards">📖 Flashcards</Link>
-                            </li>
-                            <li id="schedule" className={activeSidebarItem === 'schedule' ? 'active' : ''} onClick={() => handleSidebarItemClick('schedule')}>
-                                <Link to="/schedule">🗓️ Schedule</Link>
-                            </li>
-                        </ul>
-                    </nav>
-                )}
-
-                <main className="content" id="content">
-                    <div className="welcome">
-                        <h1>Welcome to the Study Planner</h1>
+                <nav className="sidebar" id="sidebar">
+                    <ul>
+                        <li id="home" className="active" onClick={(e) => setActive(e.currentTarget)}>
+                            <a href="/homepage" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <span className="icon"><FontAwesomeIcon icon={faHome} /></span> Home
+                            </a>
+                        </li>
+                        <li id="calendar" onClick={(e) => setActive(e.currentTarget)}>
+                            <a href="/calendar" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <span className="icon"><FontAwesomeIcon icon={faCalendarAlt} /></span> Calendar
+                            </a>
+                        </li>
+                        <li id="files" onClick={(e) => setActive(e.currentTarget)}>
+                            <span className="icon"><FontAwesomeIcon icon={faFolder} /></span> Files
+                        </li>
+                        <li id="flashcards" onClick={(e) => setActive(e.currentTarget)}>
+                            <span className="icon"><FontAwesomeIcon icon={faBookOpen} /></span> Flashcards
+                        </li>
+                        <li id="schedule" onClick={(e) => setActive(e.currentTarget)}>
+                            <span className="icon"><FontAwesomeIcon icon={faCalendarCheck} /></span> Schedule
+                        </li>
+                    </ul>
+                </nav>
+                <div className="notes-section">
+                    <div className="recent-notes">
+                        <h3>Recent Notes</h3>
+                        <div id="recentNotesContainer">
+                            <ul id="notesList">
+                                {notes.map((note, index) => (
+                                    <li key={index}>{note}</li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
-                    <div className="tasks">
-                        <h2>Your Tasks</h2>
-                        <ul id="task-list">
-                            {tasks.map((task, index) => (
-                                <li key={index} className="task-item">
-                                    <span>{task}</span>
-                                    <button onClick={() => handleRemoveTask(index)}>
-                                        Remove
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                        <input
-                            type="text"
-                            id="task-input"
-                            placeholder="Add a new task..."
-                            value={taskInput}
-                            onChange={(e) => setTaskInput(e.target.value)}
-                        />
-                        <button id="add-task" onClick={handleAddTask}>Add Task</button>
-                    </div>
-                </main>
+                    <h2>Put Notes Here</h2>
+                    <textarea
+                        id="noteInput"
+                        placeholder="Type your note here..."
+                        value={noteInput}
+                        onChange={(e) => setNoteInput(e.target.value)}
+                    />
+                    <button id="addNoteBtn" onClick={handleAddNote}>Add Note</button>
+                </div>
             </div>
         </div>
     );

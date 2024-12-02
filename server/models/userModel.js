@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Define the user schema
+
 const userSchema = mongoose.Schema({
     email: {
         type: String,
@@ -14,30 +14,30 @@ const userSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please enter your password'],
         trim: true,
-        select: false, // Do not return the password by default
+        select: false, 
     },
     verificationCode: {
         type: String,
-        select: false, // Do not return the verification code by default
+        select: false, 
     },
     verificationCodeValidation: {
         type: Date,
-        select: false, // Do not return the validation time by default
+        select: false, 
     },
     verified: {
         type: Boolean,
-        default: false, // Default value for verification status
+        default: false, 
     },
     forgotPasswordCode: {
         type: Number,
-        select: false, // Do not return the forgot password code by default
+        select: false, 
     },
     forgotPasswordCodeValidation: {
         type: Date,
-        select: false, // Do not return the forgot password validation time by default
+        select: false, 
     },
 }, {
-    timestamps: true // Automatically manage createdAt and updatedAt fields
+    timestamps: true 
 });
 
 // Export the User model

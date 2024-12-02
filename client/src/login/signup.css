@@ -1,4 +1,3 @@
-/* login.css */
 body {
     font-family: Georgia, 'Times New Roman', Times, serif;
     margin: 0;
@@ -10,26 +9,26 @@ body {
     align-items: center;
 }
 
-
+/* Main container to align the image and form */
 .container {
     display: flex;
-    width: 800px;
+    width: 900px;
     height: 500px;
-    background: #ffffff;
+    background: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
 /* Left image section styling */
-img {
+.image-container {
     flex: 1;
     position: relative;
     background: url('picture.jpg') no-repeat center center/cover; /* Set the image as background */
     border-right: rgba(0, 0, 0, 0);
 }
 
-img::after{
+.image-container::after {
     content: '';
     position: absolute;
     top: 0;
@@ -40,9 +39,8 @@ img::after{
     pointer-events: none;
 }
 
-
-/* Login container styling */
-.login-container {
+/* Signup container styling */
+.signup-container {
     flex: 1;
     padding: 50px;
     display: flex;
@@ -52,13 +50,13 @@ img::after{
     text-align: center;
 }
 
-.login-container h1 {
+.signup-container h1 {
     text-align: center;
     margin: 0 auto 20px;
     width: 100%;
 }
 
-.login-container h2 {
+.signup-container h2 {
     font-weight: normal;
     font-size: 20px;
     margin-bottom: 20px;
@@ -66,7 +64,6 @@ img::after{
     width: 100%;
 }
 
-/* Form styling */
 form {
     display: flex;
     flex-direction: column;
@@ -81,11 +78,11 @@ form {
 }
 
 /* Input fields styling */
+input[type="text"],
 input[type="email"],
 input[type="password"] {
     width: 100%;
     padding: 12px 15px;
-    padding-right: 40px; /* Add padding to the right to accommodate the icon */
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -94,11 +91,23 @@ input[type="password"] {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
     outline: none;
     border-color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Eye icon styling */
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
 }
 
 /* Submit button styling */
@@ -111,6 +120,7 @@ input[type="submit"] {
     font-size: 16px;
     cursor: pointer;
     width: 100%;
+    transition: background-color 0.3s;
 }
 
 input[type="submit"]:hover {
@@ -118,18 +128,12 @@ input[type="submit"]:hover {
 }
 
 /* Text below the form */
+
 .error-message {
     color: red; /* Change this color to whatever fits your design */
     font-size: 12px;
     margin-top: 5px;
 }
-
-.success {
-    color: green; /* Success message color */
-    font-size: 12px;
-    margin-top: 5px;
-}
-
 p {
     margin-top: 15px;
     font-size: 14px;
@@ -145,21 +149,4 @@ p a {
 
 p a:hover {
     text-decoration: underline;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .container {
-        width: 100%; /* Full width on smaller screens */
-        height: auto; /* Allow height to adjust */
-        flex-direction: column; /* Stack elements vertically */
-    }
-
-    .image-container {
-        height: 200px; /* Adjust height for smaller screens */
-    }
-
-    .login-container {
-        padding: 20px; /* Adjust padding */
-    }
 }

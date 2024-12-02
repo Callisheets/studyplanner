@@ -1,29 +1,65 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import HomePage from './homepage/home';
 import LoginPage from './login/login';
 import SignupPage from './login/signup';
-import VerifyCodePage from './login/VerificationCodePage'; // Import the VerifyCodePage
-import CalendarPage from './calendar/calendar'; // Import the CalendarPage
-import Files from './files/files'; // Import the Files component
-import Flashcards from './flashcards/flashcards'; // Import the Flashcards component
-import Schedule from './schedule/schedule'; // Import the Schedule component
+import VerifyCodePage from './login/VerificationCodePage';
+import CalendarPage from './calendar/calendar';
+import Files from './files/files';
+import Flashcards from './flashcards/flashcards';
+import Schedule from './schedule/schedule';
+import ProtectedRoute from './protectedRoute'; // Import the ProtectedRoute component
 
 const App = () => {
     return (
         <AuthProvider>
             <Router>
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/verify" element={<VerifyCodePage />} />
-                    <Route path="/calendar" element={<CalendarPage />} />
-                    <Route path="/files" element={<Files />} /> {/* Route for Files */}
-                    <Route path="/flashcards" element={<Flashcards />} /> {/* Route for Flashcards */}
-                    <Route path="/schedule" element={<Schedule />} /> {/* Route for Schedule */}
+                    {/* Protect the HomePage route */}
+                    <Route 
+                        path="/" 
+                        element={
+                            <ProtectedRoute>
+                                <HomePage />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="/calendar" 
+                        element={
+                            <ProtectedRoute>
+                                <CalendarPage />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="/files" 
+                        element={
+                            <ProtectedRoute>
+                                <Files />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="/flashcards" 
+                        element={
+                            <ProtectedRoute>
+                                <Flashcards />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="/schedule" 
+                        element={
+                            <ProtectedRoute>
+                                <Schedule />
+                            </ProtectedRoute>
+                        } 
+                    />
                 </Routes>
             </Router>
         </AuthProvider>

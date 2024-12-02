@@ -1,88 +1,283 @@
-.home-button {
-    background-color: #28a745; /* Green background */
-    color: white; /* White text */
-    padding: 8px 12px; /* Padding for the button */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    text-decoration: none; /* Remove underline */
-    font-weight: bold; /* Bold font */
-    cursor: pointer; /* Pointer cursor */
-    margin-left: 10px; /* Space between month controls and home button */
-    transition: background-color 0.3s; /* Smooth transition */
+body {
+    font-family: 'Montserrat', sans-serif; 
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-.home-button:hover {
-    background-color: #218838; /* Darker green on hover */
-}
-
-.datepicker {
-    width: 100%; /* Full width */
-    max-width: 500px; /* Maximum width */
-    margin: 20px auto; /* Center the calendar */
-    border: 1px solid #ccc; /* Border around the calendar */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    background-color: white; /* Background color */
-    height: auto; /* Allow height to adjust based on content */
-}
-
-.datepicker-top {
-    display: flex; /* Flexbox for top section */
-    justify-content: space-between; /* Space between elements */
-    align-items: center; /* Center items vertically */
-    padding: 10px 15px; /* Padding for top section */
-    border-bottom: 1px solid #ccc; /* Bottom border */
-}
-
-.month-name {
-    font-size: 1.5em; /* Larger font size for month name */
-    font-weight: bold; /* Bold font */
-}
-
-.arrow {
-    background: none; /* No background */
-    border: none; /* No border */
-    font-size: 1.5em; /* Increase font size */
-    cursor: pointer; /* Pointer cursor */
-}
-
-.datepicker-calendar {
+.topbar {
+    background-color: white; 
+    color: black; 
+    padding: 15px 20px;
     display: flex;
-    flex-direction: column; /* Column layout */
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.header {
-    display: flex; /* Flexbox for header */
-    background-color: #f7f7f7; /* Header background color */
+.search-container {
+    position: relative; 
+    width: 600px; 
 }
 
-.day {
-    flex: 1; /* Equal width for days */
-    padding: 8px; /* Padding for day cells */
-    text-align: center; /* Center text */
-    font-weight: bold; /* Bold font for days of the week */
+.search-bar {
+    padding: 12px 40px; 
+    border: 1px solid #007bff; 
+    border-radius: 20px;
+    width: 100%; 
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease; 
+    font-size: 16px; 
+    box-sizing: border-box; 
 }
 
-.body {
-    display: flex; /* Flexbox for body */
-    flex-wrap: wrap; /* Wrap days to next line */
+.search-icon {
+    position: absolute; 
+    left: 10px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    background: none;
+    border: none; 
+    cursor: pointer; 
+    color: #484d52; 
+    font-size: 18px; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.search-icon:hover {
+    color: #0056b3; 
+}
+
+.icon {
+    background: none;
+    border: none;
+    color: black; 
+    font-size: 24px;
+    margin-left: 15px;
+    margin-top: 10px;     
+    margin-bottom: 10px; 
+    cursor: pointer;
+}
+
+.hamburger {
+    background: none;
+    border: none;
+    color: black; 
+    font-size: 25px; 
+    cursor: pointer;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #213a57; 
+    position: fixed;
+    height: 100%;
+    border-right: 1px solid #ccc;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transform: translateX(-100%); 
+    transition: transform 0.3s ease; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.sidebar.open {
+    transform: translateX(0); 
+}
+
+.sidebar.closed {
+    transform: translateX(-100%); 
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px; 
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 10px 0; 
+    color: white; 
+}
+
+.sidebar li:hover {
+    background-color: #b6b3b3; 
+}
+
+.sidebar li.active {
+    color: white; 
+}
+
+.sidebar li.clicked {
+    background-color: #d3d3d3; 
+    color: white; 
+}
+
+.sidebar li .icon {
+    color: white; 
+    margin-right: 20px; 
+}
+
+.sidebar li .text {
+    display: inline; 
+}
+
+.sidebar.closed li .icon {
+    display: none; 
+}
+
+.sidebar.closed li .text {
+    display: inline; 
+}
+
+.logo-icon {
+    height: 40px; 
+    width: auto;  
+    margin-left: 10px; 
+}
+
+.right-icons {
+    display: flex;
+    align-items: center;
+}
+
+.notification-icon, .settings-icon {
+    background: none; 
+    border: none; 
+    color: black;
+    font-size: 24px; 
+    margin-left: 20px; 
+    cursor: pointer; 
+}
+
+.notification-icon:hover, .settings-icon:hover {
+    color: #000000; 
+}
+
+.notes-section {
+    margin-left: 260px; /* Adjust this based on your sidebar width */
+    padding: 20px;
+    width: 600px; /* Set a specific width for the notes section */
+}
+
+h2 {
+    margin-top: 0; 
+}
+
+textarea {
+    width: 100%; 
+    height: 150px;   
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    padding: 10px; 
+    resize: none; 
+}
+
+button {
+    margin-top: 10px; 
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 5px; 
+    background-color: #007bff; 
+    color: white; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+button:hover {
+    background-color: #0056b3; 
+}
+.calendar-section {
+    margin-left: 260px; /* Adjust this based on your sidebar width */
+    padding: 20px;
+    background-color: white; /* Set a background for the calendar */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    max-width: 600px; /* Increased max width for the calendar */
+    margin: 20px auto; /* Center the calendar horizontally */
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px; /* Adjust font size */
+}
+
+.month-year {
+    font-size: 24px; /* Increased font size */
+    font-weight: 600;
+}
+
+.calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columns for the days of the week */
+    gap: 15px; /* Increased space between days */
 }
 
 .date {
-    flex: 1 0 14%; /* 7 days in a week, 14% width */
-    padding: 15px; /* Adjusted padding for date cells */
-    text-align: center; /* Center text */
-    border: 1px solid #e0e0e0; /* Border around each date */
-    box-sizing: border-box; /* Include padding in width */
-    min-height: 60px; /* Set a minimum height for date cells */
-    transition: background-color 0.3s; /* Smooth transition for hover */
-}
-
-.current-day {
-    background-color: #28a745; /* Highlight current day */
-    color: white; /* White text for current day */
+    padding: 15px; /* Increased padding for more space */
+    background-color: #213a57; /* Light background for each date */
+    border-radius: 15px; /* Rounded corners for dates */
+    text-align: center; /* Center the text */
+    transition: background-color 0.3s ease; /* Transition for hover effect */
+    font-size: 15px; /* Increased font size */ 
+    color: white;
 }
 
 .date:hover {
-    background-color: #f0f0f0; /* Light gray background on hover */
+    background-color: #213a573a; /* Change background on hover */
+    color: #213a57; /* Change text color on hover */
+}
+
+/* Highlighted holiday dates */
+.holiday {
+    background-color: #ffcc00; /* Yellow background for holidays */
+    color: #213a57; /* Dark text color for contrast */
+    font-weight: bold; /* Make holiday dates bold */
+}
+
+/* Optional: Change hover effect for holiday dates */
+.holiday:hover {
+    background-color: #e6b800; /* Darken the background on hover */
+    color: white; /* Change text color on hover */
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columns for the days of the week */
+    gap: 15px; /* Space between days */
+    margin-bottom: 10px; /* Space below the days of the week */
+}
+
+.day {
+    font-weight: bold; /* Bold text for the day names */
+    text-align: center; /* Center the text */
+    color: #213a57; /* Color for the day names */
+}
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px; 
+    }
+    
+    .content {
+        padding: 10px; 
+    }
+    
+    .topbar {
+        padding: 10px; 
+    }
+    
+    .notes-section {
+        width: 100%; /* Make notes section responsive */
+    }
 }

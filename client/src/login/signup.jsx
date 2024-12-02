@@ -1,16 +1,19 @@
-// src/components/SignupPage.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './signup.css'
+import img from '../images/login.jpg'
 
 const SignupPage = () => {
-    const [email, setEmail] = useState(''); // State for email input
-    const [password, setPassword] = useState(''); // State for password input
-    const [error, setError] = useState(''); // State for error messages
-    const navigate = useNavigate(); // Hook to programmatically navigate
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const navigate = useNavigate(); 
 
     const handleSignup = async (e) => {
-        e.preventDefault(); // Prevent default form submission
-        setError(''); // Clear previous error messages
+        e.preventDefault(); 
+        setError(''); 
+        setSuccess(''); 
 
         try {
             const response = await fetch('http://localhost:5000/api/auth/signup', {
@@ -18,47 +21,53 @@ const SignupPage = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }), // Send email and password in request body
+                body: JSON.stringify({ email, password }), 
             });
 
-            const data = await response.json(); // Parse JSON response
+            const data = await response.json(); 
 
             if (data.success) {
-                navigate('/verify'); // Redirect to verification page on successful signup
+                setSuccess(data.message); 
+                localStorage.setItem('email', email); 
+                navigate('/verify'); 
             } else {
-                setError(data.message); // Set error message from server response
+                setError(data.message); 
             }
         } catch (err) {
-            setError('An error occurred. Please try again.'); // Handle any errors during fetch
+            setError('An error occurred. Please try again.');
         }
     };
 
     return (
+        <div className="container">
+            <div className="image-container">
+                <img src={img} alt="img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
         <div className="signup-container">
             <h2>Sign Up</h2>
-            {error && <p className="error">{error}</p>} {/* Display error message if exists */}
+            {error && <p className="error">{error}</p>} {}
+            {success && <p className="success">{success}</p>} {}
             <form onSubmit={handleSignup}>
                 <input
                     type="email"
                     placeholder="Email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)} // Update email state on input change
+                    onChange={(e) => setEmail(e.target.value)} 
                     required
                 />
                 <input
                     type="password"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)} // Update password state on input change
+                    onChange={(e) => setPassword(e.target.value)} 
                     required
                 />
-                <button type="submit">Sign Up</button> {/* Submit button for the form */}
+                <button type="submit">Sign Up</button>
             </form>
-            <p>
-                Already have an account? <Link to="/login">Login here</Link> {/* Link to login page */}
-            </p>
+            <p>Already have an account? <Link to="/login">Login here</Link></p> {}
         </div>
+    </div>
     );
 };
 
-export default SignupPage; // Export the SignupPage component
+export default SignupPage;
