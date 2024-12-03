@@ -1,20 +1,9 @@
 /* login.css */
-body {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-}
-
 
 .container {
     display: flex;
     width: 800px;
-    height: 500px;
+    height: 100vh;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
