@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import HomePage from './homepage/home';
@@ -23,17 +24,14 @@ const App = () => {
                     <Route 
                         path="/" 
                         element={
-                            <ProtectedRoute>
                                 <HomePage />
-                            </ProtectedRoute>
                         } 
                     />
                     <Route 
                         path="/calendar" 
                         element={
-                            <ProtectedRoute>
                                 <CalendarPage />
-                            </ProtectedRoute>
+
                         } 
                     />
                     <Route 
