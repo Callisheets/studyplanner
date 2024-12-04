@@ -14,15 +14,14 @@ const LoginPage = () => {
         e.preventDefault();
         setError('');
         setSuccess('');
-
-        
+    
         if (!email || !password) {
             setError("Email and Password are required.");
             return;
         }
-
+    
         const payload = { email, password };
-
+    
         try {
             const response = await fetch('http://localhost:5000/api/auth/login', {
                 method: 'POST',
@@ -31,13 +30,14 @@ const LoginPage = () => {
                 },
                 body: JSON.stringify(payload),
             });
-
+    
             const data = await response.json();
-
+            console.log('Login respone:', data)
+    
             if (response.ok) { 
                 setSuccess(data.message);
-                localStorage.setItem('token', data.token); 
-                navigate('/'); 
+                localStorage.setItem('token', data.token); // Store the token here
+                navigate('/'); // Redirect to the home page after successful login
             } else {
                 setError(data.message); 
             }

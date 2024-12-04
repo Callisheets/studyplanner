@@ -5,8 +5,8 @@ const authController = require('../controllers/authController');
 
 router.post('/signup', authController.signup); 
 router.post('/login', (req, res) => {
-    console.log('Received payload:', req.body); 
-    authController.login(req, res); 
+    authController.login(req, res);
+    console.log('logged in success') 
 }); 
 router.post('/logout', authController.logout); 
 router.patch('/send-verification-code', authController.sendVerificationCode);

@@ -5,28 +5,24 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); 
 const { loginSchema, signupSchema } = require('../middlewares/validator');
 const { sendMail } = require('../middlewares/sendMail');
-
+const mongoose = require('mongoose');
 
 const signup = async (req, res) => {
     const { error } = signupSchema.validate(req.body);
     if (error) {
         return res.status(400).json({ success: false, message: error.details[0].message });
     }
-
     const { email, password } = req.body;
-
     try {
         const existingUser  = await User.findOne({ email });
         if (existingUser ) {
             return res.status(400).json({ success: false, message: 'User  already exists' });
         }
-
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser  = new User({
             email,
             password: hashedPassword,
         });
-
         await newUser .save();
         res.status(201).json({
             success: true,
@@ -39,9 +35,7 @@ const signup = async (req, res) => {
 
 
 const login = async (req, res) => {
-
     const { email, password } = req.body;
-
     try {
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
@@ -57,7 +51,7 @@ const login = async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'Logged in successfully',
-            token,
+            token, // Ensure this is being sent
         });
     } catch (error) {
         res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
@@ -65,8 +59,7 @@ const login = async (req, res) => {
 };
 
 
-const logout = async (req, res) => {
-    
+const logout = async (req, res) => {  
     res.status(200).json({ success: true, message: 'Logged out successfully' });
 };
 
@@ -79,9 +72,8 @@ const sendVerificationCode = async (req, res) => {
         if (!user) {
             return res.status(400).json({ success: false, message: 'User  not found' });
         }
-
   
-        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
         user.verificationCode = verificationCode;
         await user.save();
 
@@ -121,35 +113,57 @@ const verifyVerificationCode = async (req, res) => {
     }
 };
 
-// Create a new schedule function
+// Create a new schedule
 const createSchedule = async (req, res) => {
     const { userId, event, date } = req.body;
+
+    // Validate userId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ error: 'Invalid user ID' });
+    }
+
+    // Validate event
+    if (!event || typeof event !== 'string' || event.trim() === '') {
+        return res.status(400).json({ error: 'Event name is required' });
+    }
+
+    // Validate date
+    if (!date || isNaN(Date.parse(date))) {
+        return res.status(400).json({ error: 'Valid date is required' });
+    }
+
     try {
-        const newSchedule = new Schedule({ userId, event , date });
+        const newSchedule = new Schedule({ userId, event, date });
         await newSchedule.save();
         res.status(201).json({
-            success: true,
-            message: 'Schedule created successfully',
             schedule: newSchedule,
+            message: 'Schedule created successfully',
         });
     } catch (error) {
-        console.error('Create schedule error:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while creating the schedule' });
+        console.error('Error creating schedule:', error);
+        res.status(500).json({ error: 'Error creating schedule' });
     }
 };
 
-// Get user schedules function
-const getUserSchedules = async (req, res) => {
+// Get schedules for a specific user
+const getUserSchedule = async (req, res) => { // Ensure this is correct
     const { userId } = req.params;
     try {
         const schedules = await Schedule.find({ userId });
-        res.status(200).json({
-            success: true,
-            schedules,
-        });
+        res.status(200).json({ schedules });
     } catch (error) {
-        console.error('Get user schedules error:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while fetching schedules' });
+        res.status(500).json({ error: 'Error fetching schedules' });
+    }
+};
+
+// Delete a schedule by ID
+const deleteSchedule = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await Schedule.findByIdAndDelete(id);
+        res.status(200).json({ message: 'Schedule deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error deleting schedule' });
     }
 };
 
@@ -161,5 +175,6 @@ module.exports = {
     sendVerificationCode,
     verifyVerificationCode,
     createSchedule,
-    getUserSchedules, // Ensure this is correctly referenced
+    getUserSchedule,
+    deleteSchedule,
 }; 

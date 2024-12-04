@@ -7,6 +7,7 @@ const { urlencoded } = require('body-parser');
 const mongoose = require('mongoose');
 const authRouter = require('./routers/authRouter'); 
 const noteRouter = require('./routers/noteRouter')
+const scheduleRouter = require ('./routers/scheduleRouter');
 
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 app.use('/api', noteRouter);
+app.use('/api', scheduleRouter);
 
 
 mongoose.connect(process.env.MONGO_URI)

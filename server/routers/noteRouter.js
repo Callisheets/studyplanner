@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Note = require('../models/noteModel'); // Ensure this path is correct
+const Note = require('../models/noteModel');
+const { verifyToken } = require('../middlewares/authMiddleware'); // Correctly import the middleware
 
-// POST route to create a new note
-router.post('/notes', async (req, res) => {
+
+router.post('/notes', verifyToken, async (req, res) => {
     const { content } = req.body;
     if (!content) {
         return res.status(400).json({ success: false, message: 'Content is required.' });
@@ -12,6 +13,7 @@ router.post('/notes', async (req, res) => {
     try {
         const newNote = new Note({
             content,
+            user: req.user.id,
         });
         await newNote.save();
         res.status(201).json({ success: true, note: newNote });
@@ -21,10 +23,10 @@ router.post('/notes', async (req, res) => {
     }
 });
 
-// GET route to fetch all notes
-router.get('/notes', async (req, res) => {
+
+router.get('/notes', verifyToken, async (req, res) => {
     try {
-        const notes = await Note.find(); // Fetch all notes from the database
+        const notes = await Note.find({ user : req.user.id });
         res.status(200).json({ success: true, notes });
     } catch (error) {
         console.error('Error fetching notes:', error);
@@ -32,9 +34,8 @@ router.get('/notes', async (req, res) => {
     }
 });
 
-// DELETE route to delete a note by ID
-router.delete('/notes/:id', async (req, res) => {
-    const { id } = req.params; // Get the note ID from the URL parameters
+router.delete('/notes/:id', verifyToken, async (req, res) => {
+    const { id } = req.params;
     try {
         const deletedNote = await Note.findByIdAndDelete(id);
         if (!deletedNote) {
@@ -47,4 +48,4 @@ router.delete('/notes/:id', async (req, res) => {
     }
 });
 
-module.exports = router; // Export the router
+module.exports = router; 

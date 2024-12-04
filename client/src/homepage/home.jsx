@@ -17,8 +17,12 @@ const HomePage = () => {
     // fetch ng notes sa database
     const fetchNotes = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/notes'); 
-            setNotes(response.data.notes); 
+            const response = await axios.get('http://localhost:5000/api/notes', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token in headers
+                },
+            });
+            setNotes(response.data.notes);
         } catch (error) {
             console.error('Error fetching notes:', error);
         }
@@ -32,8 +36,14 @@ const HomePage = () => {
     //Add note funtion dito
     const handleAddNote = async () => {
         try {
+            const token = localStorage.getItem('token'); // Get the token from local storage
+            console.log('Token:', token); // Log the token to check if it's retrieved
             const response = await axios.post('http://localhost:5000/api/notes', {
                 content: noteInput,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Include the token in the headers
+                },
             });
             console.log('Note created:', response.data);
             setNotes([...notes, response.data.note]);
@@ -45,13 +55,17 @@ const HomePage = () => {
 
     //delete ng note
     const handleDelete = async (noteId) => {
+        console.log('Deleting note with ID:', noteId); // Log the note ID
         try {
-           
-            await axios.delete(`http://localhost:5000/api/notes/${noteId}`);
-    
-            setNotes(notes.filter(note => note._id !== noteId));
+            const token = localStorage.getItem('token'); // Get the token from local storage
+            await axios.delete(`http://localhost:5000/api/notes/${noteId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Include the token in the headers
+                },
+            });
+            setNotes(notes.filter(note => note._id !== noteId)); // Update the notes state
         } catch (error) {
-            console.error('Error deleting note:', error);
+            console.error('Error deleting note:', error.response ? error.response.data : error);
         }
     };
 
@@ -124,6 +138,11 @@ const HomePage = () => {
                     <li id="home" className="active" onClick={(e) => setActive(e.currentTarget)}>
                         <a href="/" style={{ textDecoration: 'none' }}>
                             <FontAwesomeIcon icon={faHome} /> Home
+                        </a>
+                    </li>
+                    <li id="schedule" className="active" onClick={(e) => setActive(e.currentTarget)}>
+                        <a href="/schedule" style={{ textDecoration: 'none' }}>
+                            <FontAwesomeIcon icon={faHome} /> Schedule
                         </a>
                     </li>
                     <li id="calendar" onClick={(e) => setActive(e.currentTarget)}>
