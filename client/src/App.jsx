@@ -37,25 +37,23 @@ const App = () => {
                     <Route 
                         path="/files" 
                         element={
-                            <ProtectedRoute>
+                            
                                 <Files />
-                            </ProtectedRoute>
+                           
                         } 
                     />
                     <Route 
                         path="/flashcards" 
                         element={
-                            <ProtectedRoute>
+                           
                                 <Flashcards />
-                            </ProtectedRoute>
+                           
                         } 
                     />
                     <Route 
                         path="/schedule" 
                         element={
-                            <ProtectedRoute>
                                 <Schedule />
-                            </ProtectedRoute>
                         } 
                     />
                 </Routes>

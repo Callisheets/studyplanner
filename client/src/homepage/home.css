@@ -1,332 +1,208 @@
-.homepage {
-    font-family: "Montserrat", sans-serif;
-    height: 100vh;
-    width: 100%;
-}
 
+/* Topbar styling */
 .topbar {
-    width: 100%;
-    background-color: white; 
-    color: black; 
+    background-color: white;
     padding: 15px 20px;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 60px;
 }
 
-.search-container {
-    position: relative; 
-    width: 600px; 
-}
-
-.search-bar {
-    padding: 12px 40px; 
-    border: 1px solid #007bff; 
-    border-radius: 20px;
-    width: 100%; 
-    background-color: #f9f9f9;
-    transition: border-color 0.3s ease; 
-    font-size: 16px; 
-    box-sizing: border-box; 
-}
-
-.search-icon {
-    position: absolute; 
-    left: 10px; 
-    top: 50%; 
-    transform: translateY(-50%); 
-    background: none;
-    border: none; 
-    cursor: pointer; 
-    color: #484d52; 
-    font-size: 18px; 
-    padding: 0; 
-    margin: 0; 
-}
-
-.search-icon:hover {
-    color: #0056b3; 
-}
-
-.icon {
-    background: none;
-    border: none;
-    color: black; 
-    font-size: 24px;
-    margin-left: 15px;
-    margin-top: 10px; /* Add vertical space above the icon */
-    margin-bottom: 10px; /* Add vertical space below the icon */
-    cursor: pointer;
+.left-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .hamburger {
     background: none;
     border: none;
-    color: black; 
-    font-size: 25px; 
     cursor: pointer;
+    font-size: 20px;
 }
 
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar li {
+.search-container {
+    position: relative;
     display: flex;
     align-items: center;
-    padding: 10px 15px; 
+}
+
+.search-bar {
+    padding: 10px 15px 10px 40px; 
+    border: 1px solid #007bff;
+    border-radius: 20px;
+    font-size: 14px;
+    width: 200px;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    background-color: #007bff;
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    margin: 10px 0; 
-    color: white; 
-}
-
-.sidebar li:hover {
-    background-color: #b6b3b3; 
-}
-
-.sidebar li.active {
-    color: white; 
-}
-
-.sidebar li.clicked {
-    background-color: #d3d3d3; 
-    color: white; 
-}
-
-.sidebar li .icon {
-    color: white; 
-    margin-right: 20px; 
-}
-
-.sidebar li .text {
-    display: inline; 
-}
-
-.sidebar.closed li .icon {
-    display: none; 
-}
-
-.sidebar.closed li .text {
-    display: inline; 
-}
-
-.logo-icon {
-    height: 40px; 
-    width: auto;  
-    margin-left: 10px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
 }
 
 .right-icons {
     display: flex;
     align-items: center;
+    gap: 10px; 
 }
 
-.notification-icon, .settings-icon {
-    background: none; 
-    border: none; 
-    color: black;
-    font-size: 24px; 
-    margin-left: 20px; 
-    cursor: pointer; 
-}
-
-.notification-icon:hover, .settings-icon:hover {
-    color: #000000; 
-}
-
-.recent-notes {
-    display: flex; 
-    flex-direction: column; 
-    margin: 20px auto; 
-    padding: 0; 
-    max-width: 600px; 
-    width: 100%; 
-    box-sizing: border-box; 
-}
-
-.recent, .notes {
-    background-color: white; 
-    padding: 20px; 
-    border-radius: 10px; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px; 
-}
-
-h2 {
-    margin-top: 0; 
-}
-
-textarea {
-    width: 100%; 
-    height: 150px;   
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    padding: 10px; 
-    resize: none; 
-}
-
-button {
-    margin-top: 10px; 
-    padding: 10px 15px; 
-    border: none; 
-    border-radius: 5px; 
-    background-color: #007bff; 
-    color: white; 
-    cursor: pointer; 
-    transition: background-color 0.3s ease; 
-}
-
-button:hover {
-    background-color: #1077e577; 
-}
-.notes-section { 
-    justify-self: center;
-    margin-right: 230px;
-    padding: 20px;
-    width: 100%; /* Set a specific width for the notes section */
-}
-.recent-notes {
-    margin-bottom: 20px; /* Space between recent notes and input area */
-    width: 100%; /* Make recent notes take the full width of the parent */
-    border: 1px solid #ccc; /* Add border to create a box */
-    border-radius: 10px; /* Rounded corners */
-    padding: 10px; /* Padding inside the box */
-    display: flex; /* Use flexbox for horizontal alignment */
-    flex-wrap: wrap; /* Allow wrapping of items to the next line if needed */
-    gap: 10px; /* Space between items */
-}
-
-.recent-notes h3 {
-    flex-basis: 100%; /* Make the header take the full width */
-    font-size: 20px;
-}
-
-#recentNotesContainer {
-    display: flex;
-    flex-direction: row; /* Align items horizontally */
-    flex-wrap: wrap; /* Allow wrapping if items exceed width */
-}
-
-#notesList {
-    list-style-type: none;
-    padding: 0;
-    display: flex; /* Use flexbox for horizontal alignment */
-    flex-wrap: wrap; /* Allow items to wrap */
-    gap: 10px; /* Space between items */
-}
-
-#notesList li {
-    background: #f9f9f9;
-    margin: 5px; /* Space between items */
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 10px; /* Rounded corners */
-    transition: background 0.3s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Module effect */
-    flex: 0 1 auto; /* Allow items to shrink and grow */
-    max-width: 100px; /* Set a maximum width for each note */
-    white-space: normal; /* Allow text to wrap */
-    overflow-wrap: break-word; /* Break long words if needed */
-}
-
-#notesList li:hover {
-    background: #e2e2e2;
-}
-
-.notes-section h2 {
-    font-size: 24px;
-}
-
-#noteInput {
-    width: 100%; /* Make the input box take full width */
-    height: 100px; /* Set a specific height for the input box */
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #007bff;
-    border-radius: 5px;
+.right-icons button {
+    background-color: #007bff;
+    color: white;
     font-size: 16px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+/* Sidebar Styling */
+.sidebar {
+    width: 220px;
+    background-color: #213a57;
+    position: fixed;
+    top: 90px;
+    left: 0;
+    height: calc(100vh - 60px);
+    padding: 0;
+    overflow-y: auto;
+    color: white;
+    z-index: 5;
 }
 
-#addNoteBtn {
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.sidebar li:hover {
+    background-color: #1a2e43;
+}
+
+.sidebar li a {
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+/* Main content */
+.content {
+    margin-left: 220px; 
+    padding: 20px;
+    margin-top: 60px; 
+}
+
+/*notes section*/
+.note-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/*text area*/
+textarea {
+    width: 90%;
+    height: 120px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.note-section button {
     margin-top: 10px;
-    padding: 10px 15px; /* Padding for height */
+    padding: 10px 20px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 150px; /* Set a specific width */
-    margin: auto; /* Center the button */
-    display: block; /* Ensure it behaves like a block element */
 }
 
-#addNoteBtn:hover {
-    background-color: #0056b3;
+.notes-list {
+    list-style: none;
+    padding: 0;
 }
 
-/* Ensure the homepage container adjusts when the sidebar is visible */
-.homepage.sidebar-visible .notes-section {
-    margin-left: 250px; /* Shift the content when the sidebar is visible */
+.notes-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
 }
 
-/* Sidebar visibility toggling */
-.sidebar {
-    width: 250px;
-    background-color: #213a57; 
-    position: fixed;
-    height: 100%;
-    border-right: 1px solid #ccc;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transform: translateX(-100%);  /* Start hidden off-screen */
-    transition: transform 0.3s ease;
-    padding: 0; 
-    margin: 0; 
+.notes-list li:hover {
+    background-color: #f1f1f1;
 }
 
-.sidebar.open {
-    transform: translateX(0);  /* Move to visible position when open */
+.notes-list p {
+    flex: 1;
+    font-size: 16px;
+    color: #333;
+    margin-right: 20px;
 }
 
-.sidebar.closed {
-    transform: translateX(-100%);  /* Keep off-screen when closed */
+
+.delete-button {
+    background-color: #213a57;
+    color: white;
+    font-size: 16px;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-/* Ensure the main content area also adjusts based on sidebar visibility */
-.notes-section {
-    margin-left: 0; /* When sidebar is hidden */
-    transition: margin-left 0.3s ease; /* Smooth transition for margin change */
+.delete-button:hover {
+    background-color: #c03a2b93;
 }
 
-/* You can adjust the sidebar width in the responsive styles */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 200px;
-    }
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 200px; 
-    }
-    
-    .content {
-        padding: 10px; 
-    }
-    
-    .topbar {
-        padding: 10px; 
-    }
-    
-    .recent-notes {
-        flex-direction: column; 
-    }
-    
-    .recent, .notes {
-        width: 100%; 
-        margin-bottom: 20px; 
-    }
-}

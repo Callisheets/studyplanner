@@ -1,10 +1,12 @@
 const User = require('../models/userModel'); 
+const Schedule = require('../models/scheduleModel');
+const Note = require('../models/noteModel');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken'); 
 const { loginSchema, signupSchema } = require('../middlewares/validator');
 const { sendMail } = require('../middlewares/sendMail');
 
-// Login function
+
 const signup = async (req, res) => {
     const { error } = signupSchema.validate(req.body);
     if (error) {
@@ -31,14 +33,12 @@ const signup = async (req, res) => {
             message: 'User  registered successfully.',
         });
     } catch (error) {
-        console.error('Signup error:', error);
         res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
     }
 };
 
 
 const login = async (req, res) => {
-    console.log('Received payload:', req.body);
 
     const { email, password } = req.body;
 
@@ -60,7 +60,6 @@ const login = async (req, res) => {
             token,
         });
     } catch (error) {
-        console.error('Login error:', error);
         res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
     }
 };
@@ -122,10 +121,45 @@ const verifyVerificationCode = async (req, res) => {
     }
 };
 
+// Create a new schedule function
+const createSchedule = async (req, res) => {
+    const { userId, event, date } = req.body;
+    try {
+        const newSchedule = new Schedule({ userId, event , date });
+        await newSchedule.save();
+        res.status(201).json({
+            success: true,
+            message: 'Schedule created successfully',
+            schedule: newSchedule,
+        });
+    } catch (error) {
+        console.error('Create schedule error:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while creating the schedule' });
+    }
+};
+
+// Get user schedules function
+const getUserSchedules = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const schedules = await Schedule.find({ userId });
+        res.status(200).json({
+            success: true,
+            schedules,
+        });
+    } catch (error) {
+        console.error('Get user schedules error:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while fetching schedules' });
+    }
+};
+
+// Exporting the controller functions
 module.exports = {
-    login,
     signup,
+    login,
     logout,
     sendVerificationCode,
     verifyVerificationCode,
-};
+    createSchedule,
+    getUserSchedules, // Ensure this is correctly referenced
+}; 

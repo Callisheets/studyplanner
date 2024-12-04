@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './login.css';
+import './signup.css';
 import img from '../images/login.jpg'
 
 const LoginPage = () => {
@@ -22,7 +22,6 @@ const LoginPage = () => {
         }
 
         const payload = { email, password };
-        console.log('Payload being sent:', payload); 
 
         try {
             const response = await fetch('http://localhost:5000/api/auth/login', {

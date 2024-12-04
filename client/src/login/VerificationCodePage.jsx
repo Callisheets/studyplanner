@@ -5,11 +5,11 @@ const VerifyCodePage = () => {
     const [code, setCode] = useState(''); 
     const [error, setError] = useState(''); 
     const [success, setSuccess] = useState(''); 
+    const navigate = useNavigate(); // Define navigate here
 
     const handleVerifyCode = async (e) => {
         e.preventDefault();
         try {
-           
             const email = localStorage.getItem('email'); 
 
             const response = await fetch('http://localhost:5000/api/auth/verify-verification-code', {
@@ -24,7 +24,7 @@ const VerifyCodePage = () => {
             if (data.success) {
                 setSuccess(data.message);
                 setTimeout(() => {
-                    navigate('/login');
+                    navigate('/login'); // Use navigate here
                 }, 2000);
             } else {
                 setError(data.message); 

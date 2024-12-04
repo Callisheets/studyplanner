@@ -3,18 +3,55 @@ import { Link, useNavigate } from 'react-router-dom';
 import './home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faSearch, faBell, faCog, faHome, faCalendarAlt, faFolder, faBookOpen, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import study from '../images/study.jpg';
 
 const HomePage = () => {
     const [noteInput, setNoteInput] = useState('');
     const [notes, setNotes] = useState([]);
+    const [error, setError] = useState('')
     const [activeSidebarItem, setActiveSidebarItem] = useState('home');
-    const [isSidebarVisible, setIsSidebarVisible] = useState(false);  // Sidebar visibility state
+    const [isSidebarVisible, setIsSidebarVisible] = useState(false);
     const navigate = useNavigate();
 
-    const handleAddNote = () => {
-        if (noteInput.trim()) {
-            setNotes([...notes, noteInput]);
+    // fetch ng notes sa database
+    const fetchNotes = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/notes'); 
+            setNotes(response.data.notes); 
+        } catch (error) {
+            console.error('Error fetching notes:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchNotes(); 
+    }, []);
+
+
+    //Add note funtion dito
+    const handleAddNote = async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/notes', {
+                content: noteInput,
+            });
+            console.log('Note created:', response.data);
+            setNotes([...notes, response.data.note]);
             setNoteInput('');
+        } catch (error) {
+            console.error('Error creating note:', error.response.data); // Log the response data
+        }
+    };
+
+    //delete ng note
+    const handleDelete = async (noteId) => {
+        try {
+           
+            await axios.delete(`http://localhost:5000/api/notes/${noteId}`);
+    
+            setNotes(notes.filter(note => note._id !== noteId));
+        } catch (error) {
+            console.error('Error deleting note:', error);
         }
     };
 
@@ -30,11 +67,8 @@ const HomePage = () => {
     }, []);
 
     const setActive = (element) => {
-        // Remove active class from all sidebar items
         const items = document.querySelectorAll('.sidebar li');
         items.forEach(item => item.classList.remove('active'));
-
-        // Add active class to the clicked item
         element.classList.add('active');
     };
 
@@ -63,79 +97,90 @@ const HomePage = () => {
     };
 
     const toggleSidebar = () => {
-        setIsSidebarVisible(prevState => !prevState);  // Toggle sidebar visibility
+        setIsSidebarVisible(prevState => !prevState);
     };
 
     return (
-        <div className={`homepage ${isSidebarVisible ? 'sidebar-visible' : ''}`}>  {/* Toggle homepage padding */}
+        <div className={`homepage ${isSidebarVisible ? 'sidebar-visible' : ''}`}>
             <header className="topbar">
-                <div className="left-icons">
-                    <button className="hamburger" id="hamburger" onClick={toggleSidebar}>  {/* Toggle Sidebar */}
-                        <FontAwesomeIcon icon={faBars} />
-                    </button>
-                    <img src="logo.png" alt="Logo" className="logo-icon" />
-                </div>
-                <div className="search-container">
-                    <button className="search-icon">
-                        <FontAwesomeIcon icon={faSearch} />
-                    </button>
-                    <input type="text" className="search-bar" placeholder="Search..." />
-                </div>
-                <div className="right-icons">
-                    <button className="notification-icon">
-                        <FontAwesomeIcon icon={faBell} />
-                    </button>
-                    <button className="settings-icon">
-                        <FontAwesomeIcon icon={faCog} />
-                    </button>
-                </div>
-            </header>
+    <div className="left-icons">
+        <button className="hamburger" id="hamburger" onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faBars} />
+        </button>
+        <img src={study} alt="Study" style={{ width: '60px', height: '60px' }} /> {/* Adjust size as needed */}
+    </div>
+    <div className="search-container">
+        <input type="text" className="search-bar" placeholder="Search..." />
+    </div>
+    <div className="right-icons">
+        <button className="notification-icon">
+            <FontAwesomeIcon icon={faBell} />
+        </button>
+    </div>
+</header>
 
-            <nav className={`sidebar ${isSidebarVisible ? 'open' : 'closed'}`} id="sidebar">  {/* Conditional Class */}
+            <nav className={`sidebar ${isSidebarVisible ? 'open' : 'closed'}`} id="sidebar">
                 <ul>
                     <li id="home" className="active" onClick={(e) => setActive(e.currentTarget)}>
-                        <a href="/homepage" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <span className="icon"><FontAwesomeIcon icon={faHome} /></span> Home
+                        <a href="/" style={{ textDecoration: 'none' }}>
+                            <FontAwesomeIcon icon={faHome} /> Home
                         </a>
                     </li>
                     <li id="calendar" onClick={(e) => setActive(e.currentTarget)}>
-                        <a href="/calendar" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <span className="icon"><FontAwesomeIcon icon={faCalendarAlt} /></span> Calendar
+                        <a href="/calendar" style={{ textDecoration: 'none' }}>
+                            <FontAwesomeIcon icon={faCalendarAlt} /> Calendar
                         </a>
                     </li>
-                    <li id="files" onClick={(e) => setActive(e.currentTarget)}>
-                        <span className="icon"><FontAwesomeIcon icon={faFolder} /></span> Files
+                    <li id="projects" onClick={(e) => setActive(e.currentTarget)}>
+                        <a href="/projects" style={{ textDecoration: 'none' }}>
+                            <FontAwesomeIcon icon={faFolder} /> Projects
+                        </a>
                     </li>
-                    <li id="flashcards" onClick={(e) => setActive(e.currentTarget)}>
-                        <span className="icon"><FontAwesomeIcon icon={faBookOpen} /></span> Flashcards
+                    <li id="notes" onClick={(e) => setActive(e.currentTarget)}>
+                        <a href="/notes" style={{ textDecoration: 'none' }}>
+                            <FontAwesomeIcon icon={faBookOpen} /> Notes
+                        </a>
                     </li>
-                    <li id="schedule" onClick={(e) => setActive(e.currentTarget)}>
-                        <span className="icon"><FontAwesomeIcon icon={faCalendarCheck} /></span> Schedule
+                    <li id="tasks" onClick={(e) => setActive(e.currentTarget)}>
+                        <a href="/tasks" style={{ textDecoration: 'none' }}>
+                            <FontAwesomeIcon icon={faCalendarCheck} /> Tasks
+                        </a>
+                    </li>
+                    <li onClick={handleLogout}>
+                        <a href="#" style={{ textDecoration: 'none' }}>
+                            Logout
+                        </a>
                     </li>
                 </ul>
             </nav>
-            <div className="notes-section">
-                <div className="recent-notes">
-                    <h3>Recent Notes</h3>
-                    <div id="recentNotesContainer">
-                        <ul id="notesList">
-                            {notes.map((note, index) => (
-                                <li key={index}>{note}</li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-                <h2>Put Notes Here</h2>
-                <textarea
-                    id="noteInput"
-                    placeholder="Type your note here..."
-                    value={noteInput}
-                    onChange={(e) => setNoteInput(e.target.value)}
-                />
-                <button id="addNoteBtn" onClick={handleAddNote}>Add Note</button>
-            </div>
+
+            <main className="content">
+                <h1>Welcome to Your Dashboard</h1>
+
+                <section className="note-section">
+                    <h2>Create a New Note</h2>
+                    <textarea
+                        value={noteInput}
+                        onChange={(e) => setNoteInput(e.target.value)}
+                        placeholder="Write your note here..."
+                        required
+                    />
+                    <button onClick={handleAddNote}>Add Note</button>
+                </section>
+
+                <section className="notes-section">
+                    <h2>Your Notes</h2>
+                    <ul className="notes-list">
+                        {notes.map((note) => (
+                            <li key={note._id}>
+                                <p>{note.content}</p>
+                                <button className="delete-button" onClick={() => handleDelete(note._id)}>Delete</button>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            </main>
         </div>
     );
 };
-
 export default HomePage;
