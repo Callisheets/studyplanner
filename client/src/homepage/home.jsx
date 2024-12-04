@@ -69,17 +69,6 @@ const HomePage = () => {
         }
     };
 
-    useEffect(() => {
-        const handleBeforeUnload = () => {
-            localStorage.removeItem('token');
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
-
     const setActive = (element) => {
         const items = document.querySelectorAll('.sidebar li');
         items.forEach(item => item.classList.remove('active'));
@@ -97,7 +86,8 @@ const HomePage = () => {
             }
             const data = await response.json();
             if (data.success) {
-                navigate('/login');
+                localStorage.removeItem('token'); // Clear the token on explicit logout
+                navigate('/login'); // Redirect to login page
             } else {
                 console.error(data.message);
             }

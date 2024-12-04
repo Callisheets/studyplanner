@@ -9,7 +9,12 @@ const scheduleSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User ', // Reference to the User model
+        required: true,
+    },
 }, { timestamps: true });
 
 const Schedule = mongoose.model('Schedule', scheduleSchema);
-module.exports = Schedule; // Ensure this line is present
+module.exports = Schedule;

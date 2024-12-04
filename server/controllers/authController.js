@@ -1,12 +1,12 @@
-const User = require('../models/userModel'); 
+const User = require('../models/userModel');
 const Schedule = require('../models/scheduleModel');
-const Note = require('../models/noteModel');
-const bcrypt = require('bcrypt'); 
-const jwt = require('jsonwebtoken'); 
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { loginSchema, signupSchema } = require('../middlewares/validator');
 const { sendMail } = require('../middlewares/sendMail');
 const mongoose = require('mongoose');
 
+// Signup function
 const signup = async (req, res) => {
     const { error } = signupSchema.validate(req.body);
     if (error) {
@@ -33,7 +33,7 @@ const signup = async (req, res) => {
     }
 };
 
-
+// Login function
 const login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -52,28 +52,29 @@ const login = async (req, res) => {
             success: true,
             message: 'Logged in successfully',
             token, // Ensure this is being sent
+            userId: user._id,
         });
     } catch (error) {
         res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
     }
 };
 
-
-const logout = async (req, res) => {  
+// Logout function
+const logout = async (req, res) => {
     res.status(200).json({ success: true, message: 'Logged out successfully' });
 };
 
-
+// Send verification code function
 const sendVerificationCode = async (req, res) => {
     const { email } = req.body;
-    
+
     try {
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ success: false, message: 'User  not found' });
         }
-  
-const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
         user.verificationCode = verificationCode;
         await user.save();
 
@@ -82,12 +83,11 @@ const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
         res.status(200).json({ success: true, message: 'Verification code sent to your email' });
     } catch (error) {
         console.error('Send verification code error:', error);
-        res
-.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+        res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
     }
 };
 
-
+// Verify verification code function
 const verifyVerificationCode = async (req, res) => {
     const { email, code } = req.body;
 
@@ -97,14 +97,17 @@ const verifyVerificationCode = async (req, res) => {
             return res.status(400).json({ success: false, message: 'User  not found' });
         }
 
+        // Check if the provided code matches the stored verification code
         if (user.verificationCode !== code) {
             return res.status(400).json({ success: false, message: 'Invalid verification code' });
         }
 
-       
-        user.isVerified = true;
-        user.verificationCode = null;
-        await user.save();
+        // Update the user's verified status
+        user.verified = true; // Set verified to true
+        user.verificationCode = null; // Clear the verification code
+        console.log('Before saving user:', user); // Log the user object before saving
+        await user.save(); // Save the changes to the database
+        console.log('After saving user:', user); // Log the user object after saving
 
         res.status(200).json({ success: true, message: 'Account verified successfully' });
     } catch (error) {
@@ -115,7 +118,8 @@ const verifyVerificationCode = async (req, res) => {
 
 // Create a new schedule
 const createSchedule = async (req, res) => {
-    const { userId, event, date } = req.body;
+    const { event, date } = req.body;
+    const userId = req.user.id; // Assuming you have set req.user .id in your authentication middleware
 
     // Validate userId
     if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -145,29 +149,19 @@ const createSchedule = async (req, res) => {
     }
 };
 
-// Get schedules for a specific user
-const getUserSchedule = async (req, res) => { // Ensure this is correct
-    const { userId } = req.params;
+// Get user schedules
+const getUserSchedule = async (req, res) => {
+    const userId = req.user.id; // Get the user ID from the request object
     try {
-        const schedules = await Schedule.find({ userId });
+        const schedules = await Schedule.find({ userId }); // Fetch schedules for the user
         res.status(200).json({ schedules });
     } catch (error) {
+        console.error('Error fetching schedules:', error);
         res.status(500).json({ error: 'Error fetching schedules' });
     }
 };
 
-// Delete a schedule by ID
-const deleteSchedule = async (req, res) => {
-    const { id } = req.params;
-    try {
-        await Schedule.findByIdAndDelete(id);
-        res.status(200).json({ message: 'Schedule deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error deleting schedule' });
-    }
-};
-
-// Exporting the controller functions
+// Export all functions
 module.exports = {
     signup,
     login,
@@ -176,5 +170,4 @@ module.exports = {
     verifyVerificationCode,
     createSchedule,
     getUserSchedule,
-    deleteSchedule,
-}; 
+};

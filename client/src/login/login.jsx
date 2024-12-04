@@ -37,6 +37,7 @@ const LoginPage = () => {
             if (response.ok) { 
                 setSuccess(data.message);
                 localStorage.setItem('token', data.token); // Store the token here
+                localStorage.setItem('userId', data.userId); // Store the userId here
                 navigate('/'); // Redirect to the home page after successful login
             } else {
                 setError(data.message); 
