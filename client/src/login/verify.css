@@ -1,0 +1,77 @@
+.verify-code-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(173deg, #eeaeca, #9794e9);
+    color: #fff;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    padding: 15px 20px;
+    font-size: 18px;
+    color: #fff;
+    background: linear-gradient(145deg, #ff7eb3, #ff4081);
+    border: none;
+    border-radius: 50px; /* Fully rounded button */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Add a hover effect for the bubble */
+button:hover {
+    transform: scale(1.1); /* Slightly increase the size */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Optional active effect (when clicked) */
+button:active {
+    transform: scale(1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #ff6090, #ff80ab);
+}
+
+.error {
+    color: #ff5f5f;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.success {
+    color: #4caf50;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+}

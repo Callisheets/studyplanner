@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './signup.css';
-import img from '../images/login.jpg'
+import img from '../images/login.jpg';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -9,6 +10,14 @@ const LoginPage = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate(); 
+    const { login, isAuthenticated } = useAuth();
+
+    useEffect(() => {
+        // Redirect to home if already authenticated
+        if (isAuthenticated) {
+            navigate('/'); // Redirect to home page
+        }
+    }, [isAuthenticated, navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -32,12 +41,11 @@ const LoginPage = () => {
             });
     
             const data = await response.json();
-            console.log('Login respone:', data)
+            console.log('Login response:', data);
     
             if (response.ok) { 
                 setSuccess(data.message);
-                localStorage.setItem('token', data.token); // Store the token here
-                localStorage.setItem('userId', data.userId); // Store the userId here
+                login(data.token); // Call the login function here
                 navigate('/'); // Redirect to the home page after successful login
             } else {
                 setError(data.message); 
@@ -54,8 +62,8 @@ const LoginPage = () => {
             </div>
             <div className="login-container">
                 <h2>Login</h2>
-                {error && <p className="error">{error}</p>} {}
-                {success && <p className="success">{success}</p>} {}
+                {error && <p className="error">{error}</p>}
+                {success && <p className="success">{success}</p>}
                 <form onSubmit={handleLogin}>
                     <input
                         type="email"
@@ -73,7 +81,7 @@ const LoginPage = () => {
                     />
                     <button type="submit">Login</button>
                 </form>
-                <p>Don't have an account? <Link to="/signup">Sign up here</Link></p> {}
+                <p>Don't have an account? <Link to="/signup">Sign up here</Link></p>
             </div>
         </div>
     );

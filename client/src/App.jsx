@@ -20,12 +20,14 @@ const App = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/verify" element={<VerifyCodePage />} />
+
                     {/* Protect the HomePage route */}
                     <Route 
                         path="/" 
                         element={
-                                <HomePage />
+                           <HomePage />
                         } 
+
                     />
                     <Route 
                         path="/calendar" 

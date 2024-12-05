@@ -1,7 +1,7 @@
 
 /* Topbar styling */
 .topbar {
-    background-color: white;
+    background-color: #09203F;
     padding: 15px 20px;
     display: flex;
     justify-content: space-between;
@@ -138,6 +138,11 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.note-section h2{
+    font-family: 'Monserat' Arial, Helvetica, sans-serif;
+    color: #09203F;
 }
 
 /*text area*/

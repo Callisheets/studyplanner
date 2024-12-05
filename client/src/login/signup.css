@@ -4,10 +4,16 @@
     width: 90%;
     max-width: 1200px;
     height: 80vh;
-    border-radius: 10px;
+    border-radius: 30px; /* Rounded corners for bubble effect */
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 40px auto 0; /* Centers the container with added top margin (40px space) */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin: 40px auto 0;
+    background: linear-gradient(135deg, #fdfbfb, #d1d8e0); /* Gradient background */
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: scale(1.02); /* Slight zoom effect */
 }
 
 /* Image container */
@@ -23,169 +29,23 @@
     object-fit: cover;
 }
 
-/* Form container (common for login and signup) */
-.auth-container {
-    flex: 1.5;
-    background-color: #fff;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.auth-container h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
-
-.auth-container form {
-    width: 100%;
-    max-width: 400px;
-}
-
-.auth-container input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.auth-container button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 20px;
-    border: none;
-    background-color: #4CAF50;
-    color: #fff;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.auth-container button:hover {
-    background-color: #45a049;
-}
-
-/* Error and success messages */
-.error {
-    color: #e74c3c;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.success {
-    color: #2ecc71;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-/* Link styling */
-.auth-container p {
-    font-size: 14px;
-}
-
-.auth-container a {
-    color: #4CAF50;
-    text-decoration: none;
-}
-
-.auth-container a:hover {
-    text-decoration: underline;
-}
-
-/* Specific styles for Signup and Login pages */
-.signup-container {
-    flex: 1.5;
-    background-color: #fff;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.signup-container h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
-
-.signup-container form {
-    width: 100%;
-    max-width: 400px;
-}
-
-.signup-container input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.signup-container button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 20px;
-    border: none;
-    background-color: #4CAF50;
-    color: #fff;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.signup-container button:hover {
-    background-color: #45a049;
-}
-
-/* Link styling */
-.signup-container p {
-    font-size: 14px;
-}
-
-.signup-container a {
-    color: #4CAF50;
-    text-decoration: none;
-}
-
-.signup-container a:hover {
-    text-decoration: underline;
-}
-
-/* Error and success messages */
-.error {
-    color: #e74c3c;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.success {
-    color: #2ecc71;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-/* Log in container design */
+/* Common styles for auth containers */
+.auth-container,
+.signup-container,
 .login-container {
     flex: 1.5;
-    background-color: #fff;
+    background: linear-gradient(#3a358f, #602dab, #a414c9);
     padding: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.auth-container h2,
+.signup-container h2,
 .login-container h2 {
     margin-bottom: 20px;
     font-size: 24px;
@@ -193,11 +53,16 @@
     color: #333;
 }
 
+/* Form styles */
+.auth-container form,
+.signup-container form,
 .login-container form {
     width: 100%;
     max-width: 400px;
 }
 
+.auth-container input,
+.signup-container input,
 .login-container input {
     width: 100%;
     padding: 12px;
@@ -205,48 +70,66 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    outline: none;
 }
 
+/* Button styles */
+.auth-container button,
+.signup-container button,
 .login-container button {
     width: 100%;
     padding: 12px;
     margin-top: 20px;
     border: none;
-    background-color: #4CAF50;
+    background: linear-gradient(145deg, #07f00f, #66bb6a);
     color: #fff;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 50px; /* Bubble effect */
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
+.auth-container button:hover,
+.signup-container button:hover,
 .login-container button:hover {
     background-color: #45a049;
+    transform: scale(1.05); /* Button hover effect */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Error and success messages */
-.error {
-    color: #e74c3c;
+.error,
+.success {
     font-size: 14px;
     margin-bottom: 10px;
+}
+
+.error {
+    color: #e74c3c;
 }
 
 .success {
     color: #2ecc71;
-    font-size: 14px;
-    margin-bottom: 10px;
 }
 
 /* Link styling */
+.auth-container p,
+.signup-container p,
 .login-container p {
-    font-size: 14px;
+    font-size: 17px;
 }
 
+.auth-container a,
+.signup-container a,
 .login-container a {
-    color: #4CAF50;
+    font-size: 20px;
+    color: #ec10aa;
     text-decoration: none;
 }
 
+.auth-container a:hover,
+.signup-container a:hover,
 .login-container a:hover {
     text-decoration: underline;
 }

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faSearch, faBell, faCog, faHome, faCalendarAlt, faFolder, faBookOpen, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import study from '../images/study.jpg';
+import { useAuth } from '../context/AuthContext';
 
 const HomePage = () => {
     const [noteInput, setNoteInput] = useState('');
@@ -12,14 +13,23 @@ const HomePage = () => {
     const [error, setError] = useState('')
     const [activeSidebarItem, setActiveSidebarItem] = useState('home');
     const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+    const [isLoggedOut, setIsLoggedOut] = useState(false);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const { logout }  = useAuth()
     const navigate = useNavigate();
 
     // fetch ng notes sa database
     const fetchNotes = async () => {
+        const token = localStorage.getItem('token');
+        if (!token || isLoggingOut) { // Use isLoggingOut here
+            console.log('User  is not authenticated or is logging out. Skipping fetchNotes.');
+            return; // Skip fetching notes if the user is not authenticated or is logging out
+        }
+
         try {
             const response = await axios.get('http://localhost:5000/api/notes', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token in headers
+                    Authorization: `Bearer ${token}`,
                 },
             });
             setNotes(response.data.notes);
@@ -30,7 +40,7 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchNotes(); 
-    }, []);
+    }, [isLoggingOut]); // Add isLoggingOut to the dependency array
 
 
     //Add note funtion dito
@@ -75,7 +85,10 @@ const HomePage = () => {
         element.classList.add('active');
     };
 
+    
+
     const handleLogout = async () => {
+        setIsLoggingOut(true); // Set isLoggingOut to true when starting logout
         try {
             const response = await fetch('http://localhost:5000/api/auth/logout', {
                 method: 'POST',
@@ -86,13 +99,16 @@ const HomePage = () => {
             }
             const data = await response.json();
             if (data.success) {
-                localStorage.removeItem('token'); // Clear the token on explicit logout
+                setIsLoggedOut(true); // Set the state variable to indicate the user is logged out
+                logout(); // Call the logout function to handle any additional logout logic
                 navigate('/login'); // Redirect to login page
             } else {
                 console.error(data.message);
             }
         } catch (error) {
             console.error('Logout error:', error);
+        } finally {
+            setIsLoggingOut(false); // Reset isLoggingOut after logout attempt
         }
     };
 
