@@ -100,7 +100,8 @@ const Schedule = () => {
 
 
 return (
-    <div className="schedule-container">
+    /*ito yung html */
+        <div className="schedule-container">
         <h1>Schedule Page</h1>
         <form onSubmit={handleAddEvent} className="event-form">
             <input

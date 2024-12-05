@@ -77,6 +77,7 @@ const CalendarPage = () => {
     const currentYear = currentDate.getFullYear();
 
     return (
+        /*ito yung html */
         <div className="calendar-container">
             <div className="calendar-header">
                 <h2 className="month-year">{`${currentMonth} ${currentYear}`}</h2>

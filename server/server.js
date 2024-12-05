@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const authRouter = require('./routers/authRouter'); 
 const noteRouter = require('./routers/noteRouter')
 const scheduleRouter = require ('./routers/scheduleRouter');
+const taskRouter = require ('./routers/taskRouter')
 
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 app.use('/api', noteRouter);
 app.use('/api', scheduleRouter);
+app.use('/api', taskRouter);
 
 
 mongoose.connect(process.env.MONGO_URI)

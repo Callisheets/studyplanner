@@ -36,6 +36,7 @@ const VerifyCodePage = () => {
     };
 
     return (
+        /*ito yung html */
         <div className="verify-code-container">
             <h2>Verify Your Account</h2>
             {error && <p className="error">{error}</p>}

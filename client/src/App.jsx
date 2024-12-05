@@ -7,9 +7,10 @@ import LoginPage from './login/login';
 import SignupPage from './login/signup';
 import VerifyCodePage from './login/VerificationCodePage';
 import CalendarPage from './calendar/calendar';
-import Files from './files/files';
-import Flashcards from './flashcards/flashcards';
+import Projects from './projects/projects'
 import Schedule from './schedule/schedule';
+import Notes from './notes/notes'
+import Tasks from './task/tasks'
 import ProtectedRoute from './protectedRoute'; // Import the ProtectedRoute component
 
 const App = () => {
@@ -20,6 +21,12 @@ const App = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/verify" element={<VerifyCodePage />} />
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/calendar" element={<CalendarPage />} />
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/notes" element={<Notes />} /> {/* Ensure this is correct */}
+                    <Route path="/tasks" element={<Tasks />} />
+                    <Route path="/schedule" element={<Schedule />} />
 
                     {/* Protect the HomePage route */}
                     <Route 
@@ -36,19 +43,29 @@ const App = () => {
 
                         } 
                     />
+
                     <Route 
-                        path="/files" 
+                        path="/projects" 
                         element={
                             
-                                <Files />
+                                <Projects />
+                           
+                        } 
+                    />
+
+                    <Route 
+                        path="/notes" 
+                        element={
+                            
+                                <Notes />
                            
                         } 
                     />
                     <Route 
-                        path="/flashcards" 
+                        path="/tasks" 
                         element={
                            
-                                <Flashcards />
+                                <Tasks />
                            
                         } 
                     />

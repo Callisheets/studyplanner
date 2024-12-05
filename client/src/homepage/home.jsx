@@ -121,6 +121,7 @@ const HomePage = () => {
     };
 
     return (
+        /*ito yung html */
         <div className={`homepage ${isSidebarVisible ? 'sidebar-visible' : ''}`}>
             <header className="topbar">
     <div className="left-icons">

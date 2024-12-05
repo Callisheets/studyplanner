@@ -53,6 +53,7 @@ const SignupPage = () => {
     };
 
     return (
+        /*ito yung html */
         <div className="container">
             <div className="image-container">
                 <img src={img} alt="img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
