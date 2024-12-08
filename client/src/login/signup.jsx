@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './signup.css';
 import img from '../images/login.jpg';
+import logo from '../images/LogoVerify.png';
 
 const SignupPage = () => {
     const [email, setEmail] = useState('');
@@ -53,12 +54,15 @@ const SignupPage = () => {
     };
 
     return (
-        
+        /*ito yung html */
         <div className="container">
             <div className="image-container">
                 <img src={img} alt="img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div className="signup-container">
+            <div className="logo-container">
+                    <img src={logo} alt="Logo"/>
+                </div>
                 <h2>Sign Up</h2>
                 {error && <p className="error">{error}</p>}
                 {success && <p className="success">{success}</p>}

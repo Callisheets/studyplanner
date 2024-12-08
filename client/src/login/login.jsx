@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './signup.css';
 import img from '../images/login.jpg';
 import { useAuth } from '../context/AuthContext';
+import logo from '../images/LogoVerify.png';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -62,7 +63,10 @@ const LoginPage = () => {
                 <img src={img} alt="img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div className="login-container">
-                <h2>Login</h2>
+                <div className="logo-container">
+                    <img src={logo} alt="Logo"/>
+                </div>
+                <h2>Log In</h2>
                 {error && <p className="error">{error}</p>}
                 {success && <p className="success">{success}</p>}
                 <form onSubmit={handleLogin}>

@@ -1,207 +1,175 @@
-/* Calendar Container */
 .calendar-container {
-    font-family: 'Montserrat', sans-serif;  /* Use Montserrat font */
-    background-color: #f5f7fb;  /* Light background for the calendar */
+    font-family: 'Montserrat', sans-serif;;
+    display: grid;
+    grid-template-columns: 3fr 2fr; 
+    gap: 10px;
+    background-color: #f5f7fb;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    max-width: 900px;  /* Reduced width */
-    width: 100%;  /* Ensures it fills the available space up to the max-width */
-    margin-left: auto;
-    margin-right: auto;  /* Center the calendar horizontally */
-    position: relative; /* Ensure container has relative positioning */
+    margin: 10px auto;
+    max-width: 1100px;
+    width: 100%;
+    height: 700px;
 }
 
-/* Calendar Header */
+
 .calendar-header {
+    grid-column: span 2; 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    font-family: 'Montserrat', sans-serif;  /* Apply Montserrat font */
+    padding: 20px 0;
+    position: relative;
+    margin-bottom: 10px;
 }
 
-/* Month and Year */
 .month-year {
-    font-size: 24px;
+    font-size: 25px;
     font-weight: bold;
-    color: #333;
+    text-align: center;
+    flex-grow: 1;
+    color: black;
 }
 
-/* Month Selector Arrows */
+.home-button {
+    position: absolute;
+    right: 0;
+    background-color: #213a57;
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.home-button:hover {
+    background-color:#213a57;
+}
+
 .month-selector {
+    position: absolute;
+    left: 0;
     display: flex;
-    align-items: center;
     gap: 10px;
 }
 
 .arrow {
-    background-color: #007bff;
-    color: white;
-    font-size: 18px;
+    background:#213a57;
+    color:white;
     border: none;
-    padding: 10px;
+    font-size: 18px;
+    padding: 8px 12px;
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .arrow:hover {
-    background-color: #0056b3;
+    background: #266CA9;
 }
 
-/* Home Button (fixed position) */
-.home-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    position: absolute;  /* Fix the button at the bottom */
-    right: 10%;        /* Position the button at the center horizontally */
-    transform: translateX(-50%); /* Center the button */
+.calendar-dates {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
 }
 
-.home-button:hover {
-    background-color: #0056b3;
-}
-
-/* Calendar Days Header */
 .calendar-dates .header {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);  /* 7 columns for days of the week */
+    grid-template-columns: repeat(7, 1fr);
     gap: 10px;
     font-weight: bold;
-    color: #ffffff;  /* Change header color for visibility */
-    background-color: #333;  /* Dark background to contrast with text */
+    color: #ffffff;
+    background-color: #333;
     padding: 10px;
-    font-family: 'Montserrat', sans-serif;  /* Apply Montserrat font */
-    text-align: center;  /* Ensure the days are centered */
+    border-radius: 8px;
+    text-align: center;
 }
 
-/* Calendar Days */
 .calendar-dates .body {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);  /* 7 columns for the days */
+    grid-template-columns: repeat(7, 1fr);
     gap: 10px;
     margin-top: 10px;
-    text-align: center;  /* Center the days horizontally */
 }
 
-/* Day Cells */
 .calendar-dates .body .date {
     background-color: #213a57;
-    padding: 10px 0;  /* Reduced vertical padding */
-    border-radius: 8px;
-    font-size: 16px;
-    color: #ffffff;  /* Ensure text color is white for visibility */
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 18px;
+    text-align: center;
     cursor: pointer;
-    height: 60px;  /* Ensure each cell is tall enough for both the date and holiday name */
-    display: flex;
-    flex-direction: column;  /* Allow stacking of date and holiday name */
-    align-items: center;  /* Center the content horizontally */
-    justify-content: space-between;  /* Space out the date and holiday name */
-    border: 1px solid #ddd;  /* Light border for visual separation */
     transition: background-color 0.3s, transform 0.3s;
-    font-family: 'Montserrat', sans-serif;  /* Apply Montserrat font */
-}
-
-.calendar-dates .body .empty {
-    background-color: transparent;
-    border: none;  /* Ensure no border for empty cells */
 }
 
 .calendar-dates .body .date:hover {
     background-color: #007bff;
-    color: white;
     transform: scale(1.05);
 }
 
-/* Current Day Highlight */
 .calendar-dates .body .current-day {
-    background-color: #ffD166;
-    color: white;
+    background-color: #ffd166;
+    color: #333;
     font-weight: bold;
 }
 
-/* Holidays List Section */
 .holidays-list {
-    margin-top: 30px;  /* Add space between calendar and holidays list */
+    background-color: #ffffff;
     padding: 20px;
-    background-color: #ffffff;  /* Light background for the holidays section */
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Montserrat', sans-serif;  /* Same font as the calendar */
-    max-width: 900px;  /* Limit the width */
-    margin-left: auto;
-    margin-right: auto;  /* Center horizontally */
-    height: 300px;  /* Set a fixed height for scrollability */
-    overflow-y: auto;  /* Enable vertical scrolling when content overflows */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Title of Holidays Section */
 .holidays-list h3 {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
-    color: #333;
     text-align: center;
     margin-bottom: 15px;
+    flex-shrink: 0;
 }
 
-/* Holiday List */
+.holidays-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
 .holidays-list li {
-    background-color: #f0f4f8;  /* Light background for each holiday */
+    background-color: #f0f4f8;
     padding: 12px;
     border-radius: 6px;
-    margin-bottom: 10px;  /* Space between list items */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    margin-bottom: 10px;
     font-size: 16px;
-    color: #333;
     transition: background-color 0.3s;
-    overflow: hidden; /* Prevent overflow */
 }
 
-/* Highlight when hovering over a holiday */
 .holidays-list li:hover {
     background-color: #e0e7ff;
 }
 
-/* Date Formatting */
-.holidays-list li span {
-    font-size: 14px;
-    color: #007bff;  /* Blue color for the holiday date */
-    font-weight: bold;
-    max-width: 100px; /* Set a maximum width for the date */
-    overflow: hidden; /* Prevent overflow */
-    white-space: nowrap; /* Prevent text from wrapping */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
-}
 
-/* Responsiveness */
 @media (max-width: 768px) {
     .calendar-container {
-        padding: 15px;
+        grid-template-columns: 1fr; 
+        height: auto;
+    }
+
+    .calendar-header {
+        flex-direction: column;
     }
 
     .month-year {
-        font-size: 20px;
-    }
-
-    .arrow {
-        font-size: 16px;
-    }
-
-    .home-button {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-
-    .calendar-dates .header {
-        font-size: 14px;
+        margin: 10px 0;
     }
 }

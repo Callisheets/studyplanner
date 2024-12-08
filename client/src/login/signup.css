@@ -1,42 +1,47 @@
-/* Main container */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+body, * {
+    font-family: 'Montserrat', sans-serif;
+
+}
+
 .container {
     display: flex;
-    width: 90%;
+    width: 70%;
     max-width: 1200px;
     height: 80vh;
-    border-radius: 30px; /* Rounded corners for bubble effect */
+    border-radius: 30px;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     margin: 40px auto 0;
-    background: linear-gradient(135deg, #fdfbfb, #d1d8e0); /* Gradient background */
+    background: linear-gradient(135deg, #213a57, #2c496a);
     transition: transform 0.3s ease-in-out;
 }
 
-
-
 .container:hover {
-    transform: scale(1.02); /* Slight zoom effect */
+    transform: scale(1.02);
 }
 
-/* Image container */
 .image-container {
     flex: 1;
-    background-color: #e0e0e0;
+    background-color: #1a2b3f;
     position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .image-container img {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: auto;
     object-fit: cover;
 }
 
-/* Common styles for auth containers */
 .auth-container,
 .signup-container,
 .login-container {
+    margin-top: 0;
     flex: 1.5;
-    background: linear-gradient(#3a358f, #602dab, #a414c9);
     padding: 40px;
     display: flex;
     flex-direction: column;
@@ -44,6 +49,7 @@
     align-items: center;
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: auto; /* Adjusted to fit content appropriately */
 }
 
 .auth-container h2,
@@ -52,10 +58,9 @@
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: bold;
-    color: #333;
+    color: #ffffff;
 }
 
-/* Form styles */
 .auth-container form,
 .signup-container form,
 .login-container form {
@@ -67,15 +72,23 @@
 .signup-container input,
 .login-container input {
     width: 100%;
-    padding: 12px;
-    margin: 10px 0;
+    padding: 15px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 16px;
     outline: none;
+    box-sizing: border-box;
+    background-color: #1e2e44;
+    color: #ffffff;
 }
 
-/* Button styles */
+.auth-container input::placeholder,
+.signup-container input::placeholder,
+.login-container input::placeholder {
+    color: #a9b7c7;
+}
+
 .auth-container button,
 .signup-container button,
 .login-container button {
@@ -83,50 +96,48 @@
     padding: 12px;
     margin-top: 20px;
     border: none;
-    background: linear-gradient(145deg, #07f00f, #66bb6a);
-    color: #fff;
+    background: linear-gradient(145deg, #0a2440, #213a57);
+    color: #ffffff;
     font-size: 16px;
-    border-radius: 50px; /* Bubble effect */
+    border-radius: 50px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .auth-container button:hover,
 .signup-container button:hover,
 .login-container button:hover {
-    background-color: #45a049;
-    transform: scale(1.05); /* Button hover effect */
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Error and success messages */
-.error,
-.success {
-    font-size: 14px;
-    margin-bottom: 10px;
+    background-color: #2a5175;
+    transform: scale(1.05);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
 }
 
 .error {
+    font-size: 14px;
+    margin-bottom: 10px;
     color: #e74c3c;
 }
 
 .success {
+    font-size: 14px;
+    margin-bottom: 10px;
     color: #2ecc71;
 }
 
-/* Link styling */
 .auth-container p,
 .signup-container p,
 .login-container p {
-    font-size: 17px;
+    font-size: 15px;
+    color: #ffffff;
+    margin-top: 10px; /* Adds space between the login container and the paragraph */
 }
 
 .auth-container a,
 .signup-container a,
 .login-container a {
-    font-size: 20px;
-    color: #050104;
+    font-size: 15px;
+    color: #6ab0f3;
     text-decoration: none;
 }
 
@@ -134,6 +145,17 @@
 .signup-container a:hover,
 .login-container a:hover {
     text-decoration: underline;
+    color: #a8d2ff;
 }
 
+.logo-container {
+    margin-left: auto;
+    margin-bottom: 0;
+}
 
+.logo-container img {
+    width: auto;
+    max-width: 200px;
+    max-height: 100px;
+
+}
