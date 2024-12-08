@@ -4,15 +4,33 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(173deg, #eeaeca, #9794e9);
+    background: linear-gradient(173deg, #ffffff, #150061);
     color: #fff;
-    padding: 20px;
-    font-family: Arial, sans-serif;
+    padding: 5px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+.LOGO {
+    bottom: 20px;
+    position: relative;
+}
+
+
 h2 {
-    color: #fff;
-    margin-bottom: 20px;
+    color: #000000;
+    margin-bottom: 10px;  
+    text-align: center;
+    position: relative;
+    bottom: 20px;
+}
+
+h4 {
+    color: #000000;
+    margin-bottom: 10px;
+    text-align: center;
+    position: relative;
+    bottom: 20px;
+    
 }
 
 form {
@@ -21,7 +39,7 @@ form {
     width: 100%;
     max-width: 400px;
     background: rgba(255, 255, 255, 0.9);
-    padding: 30px;
+    padding: 50px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -32,18 +50,23 @@ input[type="text"] {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    position: relative;
+    
 }
 
 button {
+    position: relative;
+
+    margin-top: 5px;
     padding: 15px 20px;
     font-size: 18px;
     color: #fff;
-    background: linear-gradient(145deg, #ff7eb3, #ff4081);
+    background: linear-gradient(145deg, #14002e, #150061);
     border: none;
     border-radius: 50px; /* Fully rounded button */
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
     outline: none;
     text-transform: uppercase;
     letter-spacing: 1px;

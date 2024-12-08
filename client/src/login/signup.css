@@ -12,6 +12,8 @@
     transition: transform 0.3s ease-in-out;
 }
 
+
+
 .container:hover {
     transform: scale(1.02); /* Slight zoom effect */
 }
@@ -124,7 +126,7 @@
 .signup-container a,
 .login-container a {
     font-size: 20px;
-    color: #ec10aa;
+    color: #050104;
     text-decoration: none;
 }
 
@@ -133,3 +135,5 @@
 .login-container a:hover {
     text-decoration: underline;
 }
+
+

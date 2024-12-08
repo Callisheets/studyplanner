@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './verify.css'
+import logo from '../images/LogoVerify.png'; 
 
 const VerifyCodePage = () => {
     const [code, setCode] = useState(''); 
@@ -38,12 +39,16 @@ const VerifyCodePage = () => {
     return (
         /*ito yung html */
         <div className="verify-code-container">
-            <h2>Verify Your Account</h2>
+            <div className="LOGO" id="LOGO">
+            <img src={logo} alt="Logo" />
+            </div>
             {error && <p className="error">{error}</p>}
             {success && <p className="success">{success}</p>}
             <form onSubmit={handleVerifyCode}>
+            <h2>Verify Your Account</h2>
+            <h4>Hello, new user, you should receive a verification code shortly. Please enter it to proceed.</h4>
                 <input
-                    type="text"
+                    type="text" 
                     placeholder="Verification Code"
                     value={code}
                     onChange={(e) => setCode(e.target.value)} 
