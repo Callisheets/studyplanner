@@ -1,150 +1,140 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
-import axios from 'axios'; // Import axios for API calls
-import './schedule.css'; // Import your CSS file for styling
+import { Link } from 'react-router-dom';
+import axios from 'axios'; 
+import './schedule.css'; 
 
 const Schedule = () => {
     const [events, setEvents] = useState([]);
     const [eventInput, setEventInput] = useState('');
     const [dateInput, setDateInput] = useState('');
+    const [timeInput, setTimeInput] = useState(''); // State for time input
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [userId, setUserId] = useState(localStorage.getItem('userId')); // Corrected line
 
     // Fetch user schedules from the server
     const fetchSchedules = async () => {
         try {
-            const token = localStorage.getItem('token'); // Get the token from local storage
             const response = await axios.get('http://localhost:5000/api/schedule', {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Include the token in the headers
+                    Authorization: `Bearer ${token}`, 
                 },
             });
-    
-            // Log the entire response to the console
-            console.log('Fetched schedules:', response.data); // Log the entire response
-    
-            // Update the state with the fetched schedules
-            setEvents(response.data.schedules); // Ensure this matches the structure of your API response
+
+            console.log('Fetched schedules:', response.data);
+            setEvents(response.data.schedules); 
         } catch (error) {
             console.error('Error fetching schedules:', error.response ? error.response.data : error.message);
         }
     };
 
     useEffect(() => {
-        fetchSchedules(); // Fetch schedules when the component mounts
-    }, []);
+        if (token) {
+            fetchSchedules(); 
+        } else {
+            alert('You need to log in to view your schedules.');
+        }
+    }, [token]);
 
     const handleAddEvent = async (e) => {
         e.preventDefault();
-        if (eventInput.trim() && dateInput) {
-            try {
-                const token = localStorage.getItem('token'); // Get the token from local storage
-                const userId = localStorage.getItem('userId'); // Get the userId from local storage
+        console.log('Event:', eventInput); // Debugging: Check event input
+        console.log('Date:', dateInput); // Debugging: Check date input
+        console.log('Time:', timeInput); // Debugging: Check time input
     
+        if (eventInput.trim() && dateInput && timeInput) { // Check for time input
+            try {
                 const response = await axios.post('http://localhost:5000/api/schedule', {
                     event: eventInput,
                     date: dateInput,
-                    userId: userId, // Include userId in the request
+                    time: timeInput, // Include time in the request
+                    userId: userId,
                 }, {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Include the token in the headers
+                        Authorization: `Bearer ${token}`,
                     },
                 });
     
-                // Handle successful response
                 console.log('Event added successfully:', response.data);
-                // Optionally, you can fetch schedules again to update the list
                 fetchSchedules();
+                // Clear inputs after adding the event
+                setEventInput('');
+                setDateInput('');
+                setTimeInput('');
             } catch (error) {
-                console.error('Error adding event:', error.response ? error.response.data : error.message);
-                alert('An error occurred while adding the event. Please try again.');
+                // Log the full error object for debugging
+                console.error('Error adding event:', error); // Log the entire error object
+                if (error.response) {
+                    console.error('Error response data:', error.response.data); // Log the response data
+                    alert(`Error adding event: ${error.response.data.message || 'An error occurred.'}`);
+                } else {
+                    alert('An error occurred while adding the event. Please try again.');
+                }
             }
         } else {
-            console.error('Event name and date are required.');
+            alert('Event name, date, and time are required.');
         }
     };
-
-    const handleRemoveClick = (eventId) => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            alert('You need to log in to remove an event.');
-            return;
-        }
-        handleRemoveEvent(eventId);
-    };
-
 
     const handleRemoveEvent = async (eventId) => {
-    try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            throw new Error('No token found. Please log in again.');
-        }
+        try {
+            const response = await axios.delete(`http://localhost:5000/api/schedule/${eventId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        const response = await axios.delete(`http://localhost:5000/api/schedule/${eventId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        if (response.data.success) {
-            setEvents(events.filter(event => event._id !== eventId)); // Remove the event from the state
-        } else {
-            console.error('Error removing event:', response.data.message);
+            if (response.data.success) {
+                setEvents(events.filter((event) => event._id !== eventId)); 
+            } else {
+                alert('Failed to delete the event. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error removing event:', error.response ? error.response.data : error.message);
             alert('Failed to delete the event. Please try again.');
         }
-    } catch (error) {
-        console.error('Error removing event:', error.response ? error.response.data : error.message);
-        alert('Failed to delete the event. Please try again.');
-    }
-};
+    };
 
+    return (
+        <div className="schedule-container">
+            <h1>Schedule Page</h1>
+            <form onSubmit={handleAddEvent} className="event-form">
+                <input
+                    type="text"
+                    placeholder="Event Name"
+                    value={eventInput}
+                    onChange={(e) => setEventInput(e.target.value)}
+                    required
+                />
+                <input
+                    type="date"
+                    value={dateInput}
+                    onChange={(e) => setDateInput(e.target.value)}
+                    required
+                />
+                <input
+                    type="time" // Add time input
+                    value={timeInput}
+                    onChange={(e) => setTimeInput(e.target.value)}
+                    required
+                />
+                <button type="submit">Add Event</button>
+            </form>
+            
+            <h2>Your Scheduled Events</h2>
+            <ul className="event-list">
+                {events.map((event) => (
+                    <li key={event._id}>
+                        {event.event} - {new Date(event.date).toLocaleDateString()} at {event.time} {/* Display time */}
+                        <button onClick={() => handleRemoveEvent(event._id)} className="remove-button">
+                            Remove
+                        </button>
+                    </li>
+                ))}
+            </ul>
 
-return (
-    /*ito yung html */
-    <div className="schedule-container">
-    <h1>Schedule Page</h1>
-    <form onSubmit={handleAddEvent} className="event-form">
-        <input
-            type="text"
-            placeholder="Event Name"
-            value={eventInput}
-            onChange={(e) => setEventInput(e.target.value)}
-            required
-        />
-        <input
-            type="date"
-            value={dateInput}
-            onChange={(e) => setDateInput(e.target.value)}
-            required
-        />
-        <button type="submit">Add Event</button>
-    </form>
-    <button className="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none" className="svg-icon">
-            <g stroke-width="2" stroke-linecap="round" stroke="#fff">
-                <rect y="5" x="4" width="16" rx="2" height="16"></rect>
-                <path d="m8 3v4"></path>
-                <path d="m16 3v4"></path>
-                <path d="m4 11h16"></path>
-            </g>
-        </svg>
-        <span className="lable">Add to Calendar</span>
-    </button>
-
-    <h2>Your Scheduled Events</h2>
-    <ul className="event-list">
-        {events.map((event) => (
-            <li key={event._id}>
-                {event.event} - {new Date(event.date).toLocaleDateString()}
-                <button onClick={() => handleRemoveEvent(event._id)} className="remove-button">
-                    Remove
-                </button>
-            </li>
-        ))}
-    </ul>
-    <Link to="/" className="home-button">🏠 Home</Link>
-</div>
-
-);
+            <Link to="/" className="home-button">🏠 Home</Link>
+        </div>
+    );
 };
 
 export default Schedule;

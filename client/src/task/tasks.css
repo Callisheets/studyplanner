@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+body, * {
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+/* Container styling */
+.tasks-container {
+    max-width: 600px;
+    height: auto;
+    margin: 90px auto;
+    padding: 20px;
+    background-color: #1a2b3f;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center-align all child elements */
+}
+
+/* Heading style */
+.tasks-container h1 {
+    margin-top: 20px;
+    font-size: 1.8em;
+    color: white;
+    margin-bottom: 50px;
+}
+
+/* Error message styling */
+.error-message {
+    color:red;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+/* Input styling */
+.tasks-container input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    margin-top: -15px;
+}
+
+/* Add Task button styling */
+.tasks-container button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color:white; /* Black text color for better contrast */
+    background-color: #f4e04d; /* Yellow background */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+    
+}
+
+.tasks-container button:hover {
+    background-color: #e4cd3a; /* Slightly darker yellow for hover effect */
+}
+
+/* Task list styling */
+.tasks-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.tasks-container ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Delete button styling */
+.tasks-container ul li button {
+    background-color: yellow;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tasks-container ul li button:hover {
+    background-color:yellow;
+}
+
+.home-button {
+    display: inline-block;
+    margin-right: 145px;
+    margin-top: -65px; /* Adjusted to raise the button further up */
+    margin-bottom: -20px; /* Space below the button for separation */
+    text-align: center;
+    padding: 10px 10px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #1e3a54;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.home-button:hover {
+    background-color:#2a5175;
+}

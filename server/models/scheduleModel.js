@@ -9,9 +9,13 @@ const scheduleSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
+    time: { 
+        type: String,
+        required: true,
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User ', // Reference to the User model
+        ref: 'User ',
         required: true,
     },
 }, { timestamps: true });

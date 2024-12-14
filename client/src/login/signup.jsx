@@ -13,7 +13,7 @@ const SignupPage = () => {
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        const email = e.target.email.value; // Get email from the form
+        const email = e.target.email.value; 
 
         // Send signup request
         try {
@@ -22,12 +22,12 @@ const SignupPage = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password: e.target.password.value }), // Include password
+                body: JSON.stringify({ email, password: e.target.password.value }), 
             });
 
             const data = await response.json();
             if (data.success) {
-                localStorage.setItem('email', email); // Store email for verification
+                localStorage.setItem('email', email); 
 
                 // Send verification code
                 const verificationResponse = await fetch('http://localhost:5000/api/auth/send-verification-code', {
@@ -35,21 +35,21 @@ const SignupPage = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email }), // Send email for verification
+                    body: JSON.stringify({ email }), 
                 });
 
                 const verificationData = await verificationResponse.json();
                 if (verificationData.success) {
-                    setSuccess('A verification code has been sent to your email.'); // Set success message
-                    navigate('/verify'); // Redirect to verification page
+                    setSuccess('A verification code has been sent to your email.');
+                    navigate('/verify'); 
                 } else {
-                    setError(verificationData.message); // Set error message for verification
+                    setError(verificationData.message); 
                 }
             } else {
-                setError(data.message); // Set error message for signup
+                setError(data.message); 
             }
         } catch (err) {
-            setError('An error occurred. Please try again.'); // Handle any errors
+            setError('An error occurred. Please try again.'); 
         }
     };
 
@@ -69,7 +69,7 @@ const SignupPage = () => {
                 <form onSubmit={handleSignup}>
                     <input
                         type="email"
-                        name="email" // Added name attribute for form submission
+                        name="email" 
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)} 
@@ -77,7 +77,7 @@ const SignupPage = () => {
                     />
                     <input
                         type="password"
-                        name="password" // Added name attribute for form submission
+                        name="password"
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} 
@@ -85,7 +85,7 @@ const SignupPage = () => {
                     />
                     <button type="submit">Sign Up</button>
                 </form>
-                <p>Already have an account? <Link to="/login">Login here</Link></p>
+                <p>Already have an account? <Link to="/login">Log In</Link></p>
             </div>
         </div>
     );

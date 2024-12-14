@@ -7,11 +7,11 @@ import LoginPage from './login/login';
 import SignupPage from './login/signup';
 import VerifyCodePage from './login/VerificationCodePage';
 import CalendarPage from './calendar/calendar';
-import Projects from './projects/projects'
+import Files from './files/files'
 import Schedule from './schedule/schedule';
-import Notes from './notes/notes'
+import Flashcard from './flashcard/flashcard';
 import Tasks from './task/tasks'
-import ProtectedRoute from './protectedRoute'; // Import the ProtectedRoute component
+
 
 const App = () => {
     return (
@@ -23,8 +23,8 @@ const App = () => {
                     <Route path="/verify" element={<VerifyCodePage />} />
                     <Route path="/" element={<HomePage />} />
                     <Route path="/calendar" element={<CalendarPage />} />
-                    <Route path="/projects" element={<Projects />} />
-                    <Route path="/notes" element={<Notes />} /> {/* Ensure this is correct */}
+                    <Route path="/files" element={<Files />} />
+                    <Route path="/flashcard" element={<Flashcard />} /> {/* Ensure this is correct */}
                     <Route path="/tasks" element={<Tasks />} />
                     <Route path="/schedule" element={<Schedule />} />
 
@@ -45,19 +45,19 @@ const App = () => {
                     />
 
                     <Route 
-                        path="/projects" 
+                        path="/files" 
                         element={
                             
-                                <Projects />
+                                <Files />
                            
                         } 
                     />
 
                     <Route 
-                        path="/notes" 
+                        path="/flashcard" 
                         element={
                             
-                                <Notes />
+                                <Flashcard />
                            
                         } 
                     />

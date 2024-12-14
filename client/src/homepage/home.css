@@ -1,49 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-/* Topbar styling */
+
+body {
+    font-family: 'Montserrat', sans-serif; 
+    margin: 0; 
+    padding: 0; 
+    background-color: white;
+    font-weight: bold;
+}
+
+
 .topbar {
-    background-color: #09203F;
-    padding: 15px 20px;
+    background-color: #09203F; /* Set background color to a dark blue */
+    padding: 15px 20px; 
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    justify-content: space-between; 
+    align-items: center; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a box shadow to the topbar */
+    position: sticky; /* Make the topbar sticky */
+    top: 0; 
+    z-index: 10; 
     height: 60px;
 }
 
+/* Left icons styling */
 .left-icons {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    display: flex; /* Display left icons as a flex container */
+    align-items: center; 
 }
 
+/* Hamburger icon styling */
 .hamburger {
-    background: none;
-    border: none;
+    background: none; 
+    border: none; 
     cursor: pointer;
-    font-size: 20px;
+    font-size: 20px; 
 }
 
+/* Search container styling */
 .search-container {
-    position: relative;
-    display: flex;
-    align-items: center;
+    position: relative; /*
+    display: flex; /* Display search container as a flex container */
+    align-items: center; 
 }
 
+
+/* Search bar styling */
 .search-bar {
-    padding: 10px 15px 10px 40px; 
-    border: 1px solid #007bff;
-    border-radius: 20px;
-    font-size: 14px;
-    width: 200px;
-    outline: none;
-}
+    padding: 10px 15px 10px 40px; /* Add padding to the search bar */
+    border: 1px solid #007bff; /* Add a border to the search bar */
+    border-radius: 20px; 
+    font-size: 14px; 
+    width: 200px; 
+    outline: none; }
 
+/* Search icon styling */
 .search-icon {
     position: absolute;
-    left: 10px; 
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
     color: white;
@@ -58,165 +72,304 @@
     width: 30px;
     height: 30px;
 }
+/* Right icons styling */
 
-.right-icons {
-    display: flex;
-    align-items: center;
-    gap: 10px; 
-}
 
-.right-icons button {
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-/* Sidebar Styling */
+/* Sidebar styling */
 .sidebar {
+    font-size: 16px;
     width: 220px;
-    background-color: #213a57;
+    height: calc(100vh - 60px);
+    background: linear-gradient(180deg, #09203F, #1a2e43); /* Gradient background */
     position: fixed;
     top: 90px;
     left: 0;
-    height: calc(100vh - 60px);
     padding: 0;
     overflow-y: auto;
     color: white;
     z-index: 5;
+    transition: background 0.3s; /* Smooth transition for background */
 }
-
+/* Sidebar ul styling */
 .sidebar ul {
-    list-style: none;
-    padding: 0;
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
 }
 
+
+/* Sidebar li styling */
 .sidebar li {
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+    padding: 15px 20px; 
+    display: flex; /* Display sidebar items as a flex container */
+    align-items: center; /* Align items to center */
+    cursor: pointer; 
+    margin: 15px 0; 
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
+}
+.sidebar li .sidebar-icon {
+    margin-right: 10px; 
 }
 
+/* Sidebar li hover styling */
 .sidebar li:hover {
-    background-color: #1a2e43;
+    background-color: #094f9a; 
+    transform: scale(1.02); /* Slightly enlarge on hover */
 }
-
+/* Sidebar a styling */
 .sidebar li a {
     color: white;
-    text-decoration: none;
+    text-decoration: none; 
+    display: flex; /* Flex for icon and text alignment */
+    align-items: center; /* Center align items */
 }
 
+/* Sidebar open styling */
 .sidebar.open {
-    transform: translateX(0);
+    transform: translateX(0); 
+}
+.sidebar li .sidebar-icon {
+    margin-right: 10px; 
+    width: 20px; /* Set a fixed width for icons */
+    height: 20px;
 }
 
+
+/* Sidebar closed styling */
 .sidebar.closed {
-    transform: translateX(-100%);
+    transform: translateX(-100%); /* Move the sidebar to the left by 100% */
 }
 
-/* Main content */
+/* Main content styling */
 .content {
     margin-left: 220px; 
-    padding: 20px;
-    margin-top: 60px; 
+    padding: 20px; 
+    margin-top: 0; 
+    transition: margin-left 0.3s ease; 
+}
+.note-section {
+    margin-top: 60px; /* Adjust this value to increase/decrease space */
 }
 
-/*notes section*/
-.note-section button {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
-    padding: 20px;
-    background-color: #007bff; /* Updated to blue */
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    color: white; /* Ensure text is visible on blue */
-    border: none;
-    cursor: pointer;
-    font-size: 16px; /* Optional: Adjust font size for better appearance */
-    transition: background-color 0.3s; /* Smooth hover effect */
+/* When sidebar is closed */
+.sidebar-closed .content {
+    margin-left: 0; 
+}
+/* Notes section styling */
+.note-section {
+
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    padding: 20px; 
+    background: #1a2e43; 
+    border-radius: 12px;  
+    max-width: 1000px; /* Adjust this value to change the maximum width */
+    width: 100%; 
+    margin: 20px auto; 
+    transition: transform 0.3s; 
 }
 
-.note-section button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+
+/* Notes section h2 styling */
+.note-section h2 {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif; 
+    color: #ffffff; 
+    margin-bottom: 30px; 
+    text-align: center; 
+    margin-right: 350px;
 }
 
-.note-section h2{
-    font-family: 'Monserat' Arial, Helvetica, sans-serif;
-    color: #09203F;
-}
 
-/*text area*/
 textarea {
-    width: 90%;
+    width: 100%;
     height: 120px;
     padding: 10px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 1px solid #007bff;
     resize: vertical;
     box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.note-section button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+/* Textarea focus effect */
+textarea:focus {
+    border-color: #0056b3; /* Darker blue on focus */
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 91, 187, 0.5); 
 }
+
+
 
 .notes-list {
-    list-style: none;
-    padding: 0;
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
 }
-
-.notes-list li {
+.button {
+    height: 50px;
+    position: relative;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #fff;
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
-}
-
-.notes-list li:hover {
-    background-color: #f1f1f1;
-}
-
-.notes-list p {
-    flex: 1;
-    font-size: 16px;
-    color: #333;
-    margin-right: 20px;
-}
-
-
-.delete-button {
-    background-color: #213a57;
-    color: white;
-    font-size: 16px;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
+    justify-content: center;
+    background-color: rgb(44, 44, 44);
+    border-radius: 50%;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition-duration: 0.3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
+    border: none;
 }
 
-.delete-button:hover {
-    background-color: #c03a2b93;
+.bell {
+    width: 18px;
 }
 
+.bell path {
+    fill: white;
+}
+
+.button:hover {
+    background-color: rgb(56, 56, 56);
+}
+
+.button:hover .bell {
+    animation: bellRing 0.9s both;
+}
+
+/* bell ringing animation keyframes */
+@keyframes bellRing {
+    0%,
+    100% {
+        transform-origin: top;
+    }
+
+    15% {
+        transform: rotateZ(10deg);
+    }
+
+    30% {
+        transform: rotateZ(-10deg);
+    }
+
+    45% {
+        transform: rotateZ(5deg);
+    }
+
+    60% {
+        transform: rotateZ(-5deg);
+    }
+
+    75% {
+        transform: rotateZ(2deg);
+    }
+}
+
+.button:active {
+    transform: scale(0.8);
+}
+
+/* Notes list li styling */
+.notes-list li {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background-color: #fff; 
+    margin-bottom: 10px; 
+    padding: 15px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s;} 
+
+    .button2 {
+        background: #fbca1f;
+        font-family: inherit;
+        padding: 0.6em 1.3em;
+        font-weight: 900;
+        font-size: 18px;
+        border: 3px solid black;
+        border-radius: 0.4em;
+        box-shadow: 0.1em 0.1em;
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        color: #090909;
+        transition: all 0.2s ease-in;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .button2:hover {
+        transform: translate(-0.05em, -0.05em); 
+        box-shadow: 0.15em 0.15em;
+        color: #000000;
+        border: 1px solid #009087;
+    }
+    
+    .button2:active {
+        transform: translate(0.05em, 0.05em); 
+        box-shadow: 0.05em 0.05em; 
+    }
+    
+    .button2:before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%) scaleY(1) scaleX(1.25);
+        top: 100%;
+        width: 140%;
+        height: 180%;
+        background-color: rgba(0, 0, 0, 0.05); 
+        border-radius: 50%; 
+        display: block;
+        transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+        z-index: -1;
+    }
+    
+    .button2:after {
+        content: "";
+        position: absolute;
+        left: 55%;
+        transform: translateX(-50%) scaleY(1) scaleX(1.45);
+        top: 180%;
+        width: 160%;
+        height: 190%;
+        background-color: #009087; 
+        border-radius: 50%; 
+        transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+        z-index: -1; 
+    }
+    
+    
+    .notes-container {
+        display: flex;
+        flex-direction: column; 
+        gap: 20px; 
+    }
+    
+    .recent-notes-section,
+    .note-section {
+        width: 100%; 
+        max-width: 600px; 
+        margin: 0 auto; 
+    }
+    
+    .recent-notes-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .recent-note {
+        background-color: #f0f0f0; 
+        padding: 10px;
+        border-radius: 5px;
+        flex: 1 1 30%; 
+        min-width: 150px; 
+    }
+    .recent-notes-section {
+        margin-top: 10px; /* Adjust this value as needed */
+        /* or */
+        margin-bottom: 20px;
+    }

@@ -1,19 +1,30 @@
 const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
-    if (!token) {
-        return res.status(403).json({ success: false, message: 'No token provided' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ success: false, message: 'Unauthorized' });
+    try {
+        // Extract token from the Authorization header
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(403).json({ success: false, message: 'No token provided or invalid format' });
         }
-        req.user = decoded; // Set the user information in the request object
-        console.log('Decoded user:', req.user); // Log the decoded user
-        next();
-    });
+
+        const token = authHeader.split(' ')[1];
+
+        // Verify the token
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return res.status(401).json({ success: false, message: 'Invalid or expired token' });
+            }
+
+            // Attach decoded user information to the request object
+            req.user = decoded;
+            console.log('Decoded user:', req.user);
+            next();
+        });
+    } catch (error) {
+        console.error('Error in token verification:', error);
+        res.status(500).json({ success: false, message: 'Internal server error during token verification' });
+    }
 };
 
 module.exports = { verifyToken };
