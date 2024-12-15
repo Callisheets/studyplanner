@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif; 
+    margin: 0; 
+    padding: 0; 
+    background-color: white;
+    font-weight: bold;
+}
+
+.topbar {
+    background-color: #09203F; 
+    padding: 15px 20px; 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    position: sticky; 
+    top: 0; 
+    z-index: 10; 
+    height: 60px;
+}
+
+.left-icons {
+    display: flex; 
+    align-items: center; 
+}
+
+.hamburger {
+    background: none; 
+    border: none; 
+    cursor: pointer;
+    font-size: 20px; 
+}
+
+.search-container {
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+}
+
+.search-bar {
+    padding: 10px 15px 10px 40px; 
+    border: 1px solid #007bff; 
+    border-radius: 20px; 
+    font-size: 14px; 
+    width: 200px; 
+    outline: none; 
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 9px 12px;
+    gap: 8px;
+    height: 40px;
+    width: 50px;
+    border: none;
+    background: #0b4588;
+    border-radius: 20px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
+}
+
+.bell {
+    width: 18px;
+}
+
+.bell path {
+    fill: white;
+}
+
+.button:hover {
+    background-color: rgb(56, 56, 56);
+}
+
+.sidebar {
+    font-size: 16px;
+    width: 220px;
+    height: calc(100vh - 60px);
+    background: linear-gradient(180deg, #09203F, #1a2e43); 
+    position: fixed;
+    top: 60px; 
+    left: 0;
+    padding: 0;
+    overflow-y: auto;
+    color: white;
+    z-index: 5;
+    transition: background 0.3s; 
+}
+
+.sidebar ul {
+    list-style: none; 
+    padding: 0; 
+}
+
+.sidebar li {
+    padding: 15px 20px; 
+    display: flex; 
+    align-items: center; 
+    cursor: pointer; 
+    margin: 15px 0; 
+    border-radius: 8px; 
+    transition: background-color 0.3s, transform 0.2s; 
+}
+
+.sidebar li .sidebar-icon {
+    margin-right: 10px; 
+}
+
+.sidebar li:hover {
+    background-color: #094f9a; 
+    transform: scale(1.02); 
+}
+
+.sidebar li a {
+    color: white;
+    text-decoration: none; 
+    display: flex; 
+    align-items: center; 
+}
+
+.sidebar.open {
+    transform: translateX(0); 
+}
+
+.sidebar.closed {
+    transform: translateX(-100%); 
+}
+
+.content {
+    margin-left: 220px; 
+    padding: 20px; 
+    transition: margin-left 0.3s; 
+}
+
+.sidebar-item.active {
+    background-color: #094f9a; 
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%; 
+        height: auto; 
+    }
+    .content {
+        margin-left: 0; 
+    }
+}
+
+.content {
+    margin-left: 220px; 
+    padding: 20px; 
+    transition: margin-left 0.3s; 
+    display: flex; /* Add this */
+    flex-direction: column; /* Add this */
+    align-items: center; /* Add this */
+    text-align: center; /* Add this */
+    
+}
+
+.flashcard-container {
+    perspective: 1000px; 
+    cursor: pointer; 
+    display: flex; /* Add this */
+    justify-content: center; /* Add this */
+    align-items: center; /* Add this */
+    height: 100%; /* Optional: Set height to fill the parent */
+    margin-top: 100px;
+   
+}
+.flashcard {
+    width: 700px; 
+    height: 300px; 
+    position: relative; 
+    transition: transform 0.6s; 
+    transform-style: preserve-3d; 
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg); 
+}
+
+.front, .back {
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    backface-visibility: hidden; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    border: 1px solid #007bff; 
+    border-radius: 10px; 
+    background-color: #fff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.back {
+    transform: rotateY(180deg); 
+    background-color: #f8f9fa; 
+}
+.flashcard-input {
+    width: 90%; /* Adjust width as needed */
+    padding: 10px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    font-size: 18px;
+    outline: none;
+    background-color: #f8f9fa; /* Light background for input */
+}
+
+.flashcard-input:focus {
+    border-color: #0056b3; /* Darker border on focus */
+}
+.edit-button {
+    position: absolute; /* Position it relative to the flashcard */
+    top: 10px; 
+    right: 10px; 
+    background: none; 
+    border: none; 
+    cursor: pointer;
+    color: #007bff;
+    font-size: 10px; 
+    z-index: 1; 
+}
+
+
+.save-button {
+    position: absolute; /* Position it relative to the flashcard */
+    top: 10px; 
+    right: 50px; /* Adjust position as needed */
+    background: none; 
+    border: none; 
+    cursor: pointer;
+    color: #008720; /* Green color for save */
+    font-size: 10px; 
+    z-index: 1; 
+    margin-right: 20px;
+}

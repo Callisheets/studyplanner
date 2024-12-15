@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const { loginSchema, signupSchema } = require('../middlewares/validator');
 const { sendMail } = require('../middlewares/sendMail');
 const mongoose = require('mongoose');
-const cron = require('node-cron');
 
 // Signup function
 const signup = async (req, res) => {
@@ -51,7 +50,7 @@ const login = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
         return res.status(200).json({
             success: true,
             message: 'Logged in successfully',
@@ -132,19 +131,14 @@ const createSchedule = async (req, res) => {
 
         const user = await User.findById(userId);
         if (user?.email) {
-            // Log the email details before sending
-            console.log(`Sending email to: ${user.email}`);
-            console.log(`Email subject: New Schedule Created`);
-            console.log(`Email content: Your schedule for "${event}" on ${new Date(date).toLocaleString()} at ${time} has been created.`);
-
             // Send email notification
             await sendMail(user.email, 'New Schedule Created', `Your schedule for "${event}" on ${new Date(date).toLocaleString()} at ${time} has been created.`);
         }
 
-        res.status(201).json({ schedule: newSchedule }); 
+        res.status(201).json({ schedule: newSchedule });
     } catch (error) {
-        console.error('Error creating schedule:', error); 
-        res.status(500).json({ message: 'Error creating schedule', error: error.message }); 
+        console.error('Error creating schedule:', error);
+        res.status(500).json({ message: 'Error creating schedule', error: error.message });
     }
 };
 
@@ -161,47 +155,9 @@ const getUserSchedule = async (req, res) => {
     }
 };
 
-// Set up a cron job to send reminders daily
-cron.schedule('0 0 * * *', async () => {
-    try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); 
-        const tomorrow = new Date(today);
-        tomorrow.setDate(today.getDate() + 1); 
-
-        // Find schedules for today
-        const events = await Schedule.find({ date: { $gte: today, $lt: tomorrow } });
-
-        if (events.length === 0) {
-            console.log('No events found for today');
-            return;
-        }
-
-        for (const event of events) {
-            const user = await User.findById(event.userId);
-
-            if (user?.email) {
-                const reminderTime = new Date(event.date).toLocaleString();
-
-                // Log the email details before sending
-                console.log(`Sending reminder email to: ${user.email}`);
-                console.log(`Reminder subject: Today's Event Reminder`);
-                console.log(`Reminder content: Your event "${event.event}" is scheduled for ${reminderTime}.`);
-
-                try {
-                    await sendMail(user.email, 'Reminder: Today\'s Event', `Your event "${event.event}" is scheduled for ${reminderTime}.`);
-                    console.log(`Reminder sent to ${user.email} for event: "${event.event}"`);
-                } catch (emailError) {
-                    console.error(`Error sending email to ${user.email}:`, emailError);
-                }
-            } else {
-                console.log(`No email found for user ${event.userId}`);
-            }
-        }
-    } catch (error) {
-        console.error('Cron job error:', error);
-    }
-});
+module.exports = {
+    createSchedule,
+};
 
 module.exports = {
     signup,

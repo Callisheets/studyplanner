@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './files.css'; 
 
-const Projects = () => {
+const Files = () => {
     return (
 
 
@@ -11,11 +11,6 @@ const Projects = () => {
         <p>Manage your files here.</p>
         <section>
             <h2>Your Files</h2>
-            <ul>
-                <li>Project A</li>
-                <li>Project B</li>
-                <li>Project C</li>
-            </ul>
         </section>
         <section>
             <h2>Add a New Files</h2>
@@ -24,9 +19,9 @@ const Projects = () => {
             <button class="add-project-button">Add Files</button>
             </div>
         </section>
-        <Link to="/" className="home-button">🏠 Home</Link> {}
+        <Link to="/" className="home-button">Back</Link>
     </div>
 );
 };
 
-export default Projects;
+export default Files;

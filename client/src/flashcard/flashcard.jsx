@@ -1,104 +1,197 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios'; 
-import './flashcard.css'; 
+import { Link, useNavigate } from 'react-router-dom';
+import './flashcard.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faBell, faHome, faCalendarAlt, faFolder, faBookOpen, faCalendarCheck, faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
+import study from '../images/white.png';
+import { useAuth } from '../context/AuthContext';
 
-const Notes = () => {
-    const [notes, setNotes] = useState([]); 
-    const [noteInput, setNoteInput] = useState(''); 
-    const [error, setError] = useState(''); 
+const FlashCardComponent = () => {
+    const [isFlipped, setIsFlipped] = useState(false);
+    const [frontText, setFrontText] = useState('');
+    const [backText, setBackText] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+    const [flashcards, setFlashcards] = useState([]);
 
-    // Function to fetch notes from the database
-    const fetchNotes = async () => {
-        const token = localStorage.getItem('token'); 
-        try {
-            const response = await axios.get('http://localhost:5000/api/notes', {
-                headers: {
-                    Authorization: `Bearer ${token}`, 
-                },
-            });
-            setNotes(response.data.notes); 
-            alert('Notes fetched successfully!'); 
-        } catch (error) {
-            console.error('Error fetching notes:', error);
-            setError('Failed to fetch notes. Please try again.'); 
-            alert('Error fetching notes: ' + error.message);
+    // Flip card only when not editing
+    const handleFlip = () => {
+        if (!isEditing) {
+            setIsFlipped(prevState => !prevState);
         }
     };
 
-    // Fetch notes when the component mounts
+    const toggleEdit = (e) => {
+        e.stopPropagation();
+        setIsEditing(prevState => !prevState);
+        if (isEditing) {
+            setIsFlipped(false); 
+        }
+    };
+
     useEffect(() => {
-        fetchNotes();
-    }, []);
+        const fetchFlashcards = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/flashcards', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
 
-    // Function to handle adding a new note
-    const handleAddNote = async () => {
-        const token = localStorage.getItem('token'); 
-        try {
-            const response = await axios.post('http://localhost:5000/api/notes', {
-                content: noteInput,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setNotes([...notes, response.data.note]); 
-            setNoteInput(''); 
-            alert('Note added successfully!'); 
-        } catch (error) {
-            console.error('Error creating note:', error.response.data);
-            setError('Failed to add note. Please try again.'); 
-            alert('Error adding note: ' + error.response.data.message);
-        }
-    };
+                const data = await response.json();
+                if (data.success) {
+                    setFlashcards(data.flashcards); 
+                } else {
+                    console.error(data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching flashcards:', error);
+            }
+        };
 
-    // Function to handle deleting a note
-    const handleDeleteNote = async (noteId) => {
-        const token = localStorage.getItem('token'); 
+        fetchFlashcards(); 
+    }, []); 
+
+    const handleSave = async (e) => {
+        e.stopPropagation(); 
         try {
-            await axios.delete(`http://localhost:5000/api/notes/${noteId}`, {
+            const response = await fetch('http://localhost:5000/api/flashcards', {
+                method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${token}`, 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
+                body: JSON.stringify({ frontText, backText }),
             });
-            // Update the notes state to remove the deleted note
-            setNotes(notes.filter(note => note._id !== noteId));
-            alert('Note deleted successfully!'); 
+
+            const data = await response.json();
+            if (data.success) {
+                console.log("Flashcard saved:", data.flashcard);
+                // Reset input fields and exit editing mode
+                setFrontText('');
+                setBackText('');
+                setIsEditing(false);
+            } else {
+                console.error(data.message);
+            }
         } catch (error) {
-            console.error('Error deleting note:', error.response.data);
-            setError('Failed to delete note. Please try again.');
-            alert('Error deleting note: ' + error.response.data.message); 
+            console.error('Error saving flashcard:', error);
         }
     };
 
     return (
-        <div>
-            <h1>Notes Page</h1>
-            <p>Here you can view and manage your notes.</p>
-            {error && <p className="error">{error}</p>} {}
-            <section>
-                <h2>Your Notes</h2>
-                <ul>
-                    {notes.map((note) => (
-                        <li key={note._id}>
-                            <p>{note.content}</p>
-                            <button onClick={() => handleDeleteNote(note._id)}>Delete</button> {}
-                        </li>
-                    ))}
-                </ul>
-            </section>
-            <section>
-                <h2>Add a New Note</h2>
-                <textarea
-                    value={noteInput}
-                    onChange={(e) => setNoteInput(e.target.value)}
-                    placeholder="Write your note here..."
-                ></textarea>
-                <button onClick={handleAddNote}>Add Note</button>
-            </section>
-            <Link to="/" className="home-button">🏠 Home</Link> {}
+        <div className="flashcard-container" onClick={handleFlip}>
+            <div className={`flashcard ${isFlipped ? 'flipped' : ''}`}>
+                <div className="front">
+                    {isEditing ? (
+                        <input 
+                            type="text" 
+                            value={frontText} 
+                            onChange={(e) => setFrontText(e.target.value)} 
+                            className="flashcard-input" 
+                            placeholder="Enter question here" 
+                        />
+                    ) : (
+                        <h2>{frontText || ""}</h2>
+                    )}
+                </div>
+                <div className="back">
+                    {isEditing ? (
+                        <input 
+                            type="text" 
+                            value={backText} 
+                            onChange={(e) => setBackText(e.target.value)} 
+                            className="flashcard-input" 
+                            placeholder="Enter answer here" 
+                        />
+                    ) : (
+                        <h2>{backText || ""}</h2>
+                    )}
+                </div>
+            </div>
+            <button onClick={toggleEdit} className="edit-button">
+                <FontAwesomeIcon icon={faPen} /> {/* Edit Icon */}
+            </button>
+            {isEditing && (
+                <button onClick={handleSave} className="save-button">
+                    <FontAwesomeIcon icon={faCheck} /> {/* Save Icon */}
+                </button>
+            )}
         </div>
     );
 };
 
-export default Notes;
+const FlashCard = () => {
+    const [activeSidebarItem, setActiveSidebarItem] = useState('flashcards');
+    const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    };
+
+    const toggleSidebar = () => {
+        setIsSidebarVisible(prevState => !prevState);
+    };
+
+    return (
+        <div className={`flashcard-page ${isSidebarVisible ? 'sidebar-visible' : 'sidebar-closed'}`}>
+            <header className="topbar">
+                <div className="left-icons">
+                    <button className="hamburger" onClick={toggleSidebar}>
+                        <FontAwesomeIcon icon={faBars} />
+                    </button>
+                    <img src={study} alt="Study" style={{ width: '200px', height: '200px' }} />
+                </div>
+                <div className="search-container">
+                    <input type="text" className="search-bar" placeholder="Search..." />
+                </div>
+                <button className="button">
+                    <FontAwesomeIcon icon={faBell} className="bell" />
+                </button>
+            </header>
+            <nav className={`sidebar ${isSidebarVisible ? 'open' : 'closed'}`} id="sidebar">
+                <ul>
+                    <li id="home" className={`sidebar-item ${activeSidebarItem === 'home' ? 'active' : ''}`} onClick={() => setActiveSidebarItem('home')}>
+                        <Link to="/home" className="sidebar-link">
+                            <FontAwesomeIcon icon={faHome} className="sidebar-icon" /> Home
+                        </Link>
+                    </li>
+                    <li id="schedule" className={`sidebar-item ${activeSidebarItem === 'schedule' ? 'active' : ''}`} onClick={() => setActiveSidebarItem('schedule')}>
+                        <Link to="/schedule" className="sidebar-link">
+                            <FontAwesomeIcon icon={faCalendarAlt} className="sidebar-icon" /> Schedule
+                        </Link>
+                    </li>
+                    <li id="folder" className={`sidebar-item ${activeSidebarItem === 'folder' ? 'active' : ''}`} onClick={() => setActiveSidebarItem('folder')}>
+                        <Link to="/folder" className="sidebar-link">
+                            <FontAwesomeIcon icon={faFolder} className="sidebar-icon" /> Folder
+                        </Link>
+                    </li>
+                    <li id="resources" className={`sidebar-item ${activeSidebarItem === 'resources' ? 'active' : ''}`} onClick={() => setActiveSidebarItem('resources')}>
+                        <Link to="/resources" className="sidebar-link">
+                            <FontAwesomeIcon icon={faBookOpen} className="sidebar-icon" /> Resources
+                        </Link>
+                    </li>
+                    <li id="completed" className={`sidebar-item ${activeSidebarItem === 'completed' ? 'active' : ''}`} onClick={() => setActiveSidebarItem('completed')}>
+                        <Link to="/completed" className="sidebar-link">
+                            <FontAwesomeIcon icon={faCalendarCheck} className="sidebar-icon" /> Completed
+                        </Link>
+                    </li>
+                </ul>
+                <button onClick={handleLogout} className="logout-button">Logout</button>
+            </nav>
+            <main className="content">
+                <h1>Flashcards</h1>
+                <FlashCardComponent />
+            </main>
+        </div>
+    );
+};
+
+export default FlashCard;

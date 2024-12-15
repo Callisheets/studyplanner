@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Please enter an email'],
@@ -36,9 +36,18 @@ const userSchema = mongoose.Schema({
         type: Date,
         select: false, 
     },
+    name: {
+        type: String,
+        required: true, // Ensure this field is required
+    },
+    phone: {
+        type: String,
+    },
 }, {
     timestamps: true 
 });
 
+const User = mongoose.model('User ', userSchema);
+
 // Export the User model
-module.exports = mongoose.model('User ', userSchema);
+module.exports = User;

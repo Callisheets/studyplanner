@@ -85,7 +85,7 @@ const CalendarPage = () => {
                     <button className="arrow" onClick={handlePreviousMonth} aria-label="Previous Month">&#9664;</button>
                     <button className="arrow" onClick={handleNextMonth} aria-label="Next Month">&#9654;</button>
                 </div>
- <Link to="/" className="home-button">🏠 Home</Link>
+ <Link to="/" className="home-button">B A C K</Link>
             </div>
             <div className="calendar-dates">
                 <div className="header">

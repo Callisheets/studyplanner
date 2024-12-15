@@ -99,7 +99,7 @@ const Tasks = () => {
 
     return (
         <div className="tasks-container">
-            <Link to="/" className="home-button">🏠 Home</Link>
+            <Link to="/" className="home-button">Back</Link>
             <h1>Tasks</h1>
             {error && <p className="error-message">{error}</p>}
             <input

@@ -10,7 +10,7 @@
     flex-direction: column; /* Stack children vertically */
     min-height: 300px; /* Set a minimum height */
     align-items: center;
-    position: relative;
+    position: relative;   
 }
 
 h1 {
@@ -19,6 +19,7 @@ h1 {
     margin-bottom: 20px;
     font-family:Arial, Helvetica, sans-serif;
 }
+
 h2{
     text-align: center;
     color: black;
@@ -32,6 +33,16 @@ h2{
     margin-bottom: 20px; /* Space below the form */
     flex: 1;
     font-family: Arial, Helvetica, sans-serif;
+}
+ 
+.events-container {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-height: 400px; /* Set a max height for the container */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .event-form input[type="text"],
@@ -57,7 +68,6 @@ h2{
 .event-form button:hover {
     background-color: #000080; /* Darker green on hover */
 }
-
 .event-list {
     list-style-type: none; /* Remove bullet points */
     padding: 0; /* Remove default padding */
@@ -107,89 +117,13 @@ h2{
     font-weight: bold; /* Bold text */
     transition: background-color 0.3s; /* Smooth transition */
     margin: 20px;
-    top: 10px;
+    top: 100px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 15px;
 }
 
 .home-button:hover {
     background-color:#000080; 
-}
-@media screen and (max-width: 768px) {
-    .event-form {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .event-form input[type="text"],
-    .event-form input[type="date"] {
-        width: 100%; /* Ensure full width of inputs */
-        margin-right: 0;
-    }
-
-    .home-button {
-        width: 100%;
-    }
-}
-.button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 9px 12px;
-    gap: 8px;
-    height: 40px;
-    width: 201px;
-    border: none;
-    background: #213a57;
-    border-radius: 20px;
-    cursor: pointer;
-  }
-  
-  .lable {
-    line-height: 22px;
-    font-size: 12px;
-    color: #fff;
-    font-family: sans-serif;
-    letter-spacing: 1px;
-  }
-  
-  .button:hover {
-    background: #000080;
-  }
-  
-  .button:hover .svg-icon {
-    animation: slope 1s linear infinite;
-  }
-  
-  @keyframes slope {
-    0% {
-    }
-  
-    50% {
-      transform: rotate(10deg);
-    }
-  
-    100% {
-    }
-  }
-  .schedule-wrapper {
-    display: flex; /* Create a horizontal split layout */
-    justify-content: space-between; /* Space between the two sections */
-    max-width: 1000px;
-    margin: 20px auto;
-    gap: 20px; /* Add space between sections */
-}
-
-.schedule-container,
-.events-container {
-    flex: 1; /* Each section takes equal space */
-    padding: 20px;
-    background-color: #ffffff; /* White background */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .events-container h2 {
@@ -213,24 +147,6 @@ h2{
     align-items: center; /* Center items vertically */
 }
 
-@media screen and (max-width: 768px) {
-    .schedule-wrapper {
-        flex-direction: column; /* Stack sections vertically on smaller screens */
-    }
-}
-.events-container {
-    flex: 1; /* Equal space in the flex layout */
-    padding: 20px;
-    background-color: #ffffff; /* White background */
-    border-radius: 5px; /* Rounded corners */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-height: 400px; /* Set a max height for the container */
-    overflow-y: auto; /* Add vertical scrolling when content overflows */
-}
-
-
 .events-container::-webkit-scrollbar {
     width: 8px; 
 }
@@ -246,4 +162,65 @@ h2{
 
 .events-container::-webkit-scrollbar-track {
     background: #f1f1f1; 
+}
+
+
+@media screen and (max-width: 768px) {
+    .event-form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .event-form input[type="text"],
+    .event-form input[type="date"] {
+        width: 100%; /* Ensure full width of inputs */
+        margin-right: 0;
+    }
+    
+
+    .home-button {
+        width: 100%;
+    }
+
+    .schedule-wrapper {
+        flex-direction: column; /* Stack sections vertically on smaller screens */
+    }
+}
+
+@keyframes slope {
+    0% {
+    }
+  
+    50% {
+      transform: rotate(10deg);
+    }
+  
+    100% {
+    }
+  }
+
+
+  
+  .lable {
+    line-height: 22px;
+    font-size: 12px;
+    color: #fff;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+  }
+  
+  .button:hover {
+    background: #000080;
+  }
+  
+  .button:hover .svg-icon {
+    animation: slope 1s linear infinite;
+  }
+  
+  .schedule-wrapper {
+    display: flex; /* Create a horizontal split layout */
+    justify-content: space-between; /* Space between the two sections */
+    max-width: 1000px;
+    margin: 20px auto;
+    gap: 20px; /* Add space between sections */
 }

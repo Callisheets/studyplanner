@@ -1,35 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'; 
-import './schedule.css'; 
+import axios from 'axios';
+import './schedule.css';
 
 const Schedule = () => {
     const [events, setEvents] = useState([]);
     const [eventInput, setEventInput] = useState('');
     const [dateInput, setDateInput] = useState('');
-    const [timeInput, setTimeInput] = useState(''); // State for time input
-    const [token, setToken] = useState(localStorage.getItem('token'));
-    const [userId, setUserId] = useState(localStorage.getItem('userId')); // Corrected line
+    const [timeInput, setTimeInput] = useState('');
+    const token = localStorage.getItem('token'); // No need to store in state if it doesn't change
+    const userId = localStorage.getItem('userId'); // Same here
 
     // Fetch user schedules from the server
     const fetchSchedules = async () => {
         try {
             const response = await axios.get('http://localhost:5000/api/schedule', {
-                headers: {
-                    Authorization: `Bearer ${token}`, 
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
-
-            console.log('Fetched schedules:', response.data);
-            setEvents(response.data.schedules); 
+            setEvents(response.data.schedules || []);
         } catch (error) {
-            console.error('Error fetching schedules:', error.response ? error.response.data : error.message);
+            console.error('Error fetching schedules:', error.response?.data || error.message);
+            alert('Failed to fetch schedules. Please try again.');
         }
     };
 
     useEffect(() => {
         if (token) {
-            fetchSchedules(); 
+            fetchSchedules();
         } else {
             alert('You need to log in to view your schedules.');
         }
@@ -37,59 +34,40 @@ const Schedule = () => {
 
     const handleAddEvent = async (e) => {
         e.preventDefault();
-        console.log('Event:', eventInput); // Debugging: Check event input
-        console.log('Date:', dateInput); // Debugging: Check date input
-        console.log('Time:', timeInput); // Debugging: Check time input
-    
-        if (eventInput.trim() && dateInput && timeInput) { // Check for time input
-            try {
-                const response = await axios.post('http://localhost:5000/api/schedule', {
-                    event: eventInput,
-                    date: dateInput,
-                    time: timeInput, // Include time in the request
-                    userId: userId,
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-    
-                console.log('Event added successfully:', response.data);
-                fetchSchedules();
-                // Clear inputs after adding the event
-                setEventInput('');
-                setDateInput('');
-                setTimeInput('');
-            } catch (error) {
-                // Log the full error object for debugging
-                console.error('Error adding event:', error); // Log the entire error object
-                if (error.response) {
-                    console.error('Error response data:', error.response.data); // Log the response data
-                    alert(`Error adding event: ${error.response.data.message || 'An error occurred.'}`);
-                } else {
-                    alert('An error occurred while adding the event. Please try again.');
-                }
-            }
-        } else {
-            alert('Event name, date, and time are required.');
+        if (!eventInput.trim() || !dateInput || !timeInput) {
+            return alert('Event name, date, and time are required.');
+        }
+
+        try {
+            const response = await axios.post(
+                'http://localhost:5000/api/schedule',
+                { event: eventInput, date: dateInput, time: timeInput, userId },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            setEvents([...events, response.data.schedule]);
+            setEventInput('');
+            setDateInput('');
+            setTimeInput('');
+        } catch (error) {
+            console.error('Error adding event:', error.response?.data || error.message);
+            alert(error.response?.data?.message || 'Failed to add event. Please try again.');
         }
     };
 
     const handleRemoveEvent = async (eventId) => {
         try {
             const response = await axios.delete(`http://localhost:5000/api/schedule/${eventId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
 
             if (response.data.success) {
-                setEvents(events.filter((event) => event._id !== eventId)); 
+                setEvents(events.filter((event) => event._id !== eventId));
             } else {
                 alert('Failed to delete the event. Please try again.');
             }
         } catch (error) {
-            console.error('Error removing event:', error.response ? error.response.data : error.message);
+            console.error('Error removing event:', error.response?.data || error.message);
             alert('Failed to delete the event. Please try again.');
         }
     };
@@ -112,27 +90,35 @@ const Schedule = () => {
                     required
                 />
                 <input
-                    type="time" // Add time input
+                    type="time"
                     value={timeInput}
                     onChange={(e) => setTimeInput(e.target.value)}
                     required
                 />
                 <button type="submit">Add Event</button>
             </form>
-            
-            <h2>Your Scheduled Events</h2>
-            <ul className="event-list">
-                {events.map((event) => (
-                    <li key={event._id}>
-                        {event.event} - {new Date(event.date).toLocaleDateString()} at {event.time} {/* Display time */}
-                        <button onClick={() => handleRemoveEvent(event._id)} className="remove-button">
-                            Remove
-                        </button>
-                    </li>
-                ))}
-            </ul>
 
-            <Link to="/" className="home-button">🏠 Home</Link>
+            <div className="events-container">
+                <h2>Your Scheduled Events</h2>
+                {events.length > 0 ? (
+                    <ul className="event-list">
+                        {events.map((event) => (
+                            <li key={event._id}>
+                                <span>{event.event} - {new Date(event.date).toLocaleDateString()} at {event.time}</span>
+                                <button
+                                    onClick={() => handleRemoveEvent(event._id)}
+                                    className="remove-button"
+                                >
+                                    Remove
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No scheduled events yet. Add one above!</p>
+                )}
+                <Link to="/" className="home-button">Back</Link>
+            </div>
         </div>
     );
 };

@@ -7,10 +7,12 @@ import LoginPage from './login/login';
 import SignupPage from './login/signup';
 import VerifyCodePage from './login/VerificationCodePage';
 import CalendarPage from './calendar/calendar';
-import Files from './files/files'
+import Files from './files/files';
 import Schedule from './schedule/schedule';
 import Flashcard from './flashcard/flashcard';
-import Tasks from './task/tasks'
+import Tasks from './task/tasks';
+import Profile from './profile/profile';
+
 
 
 const App = () => {
@@ -27,6 +29,8 @@ const App = () => {
                     <Route path="/flashcard" element={<Flashcard />} /> {/* Ensure this is correct */}
                     <Route path="/tasks" element={<Tasks />} />
                     <Route path="/schedule" element={<Schedule />} />
+                    <Route path="/profile" element={<Profile />} />
+                  
 
                     {/* Protect the HomePage route */}
                     <Route 
@@ -75,6 +79,17 @@ const App = () => {
                                 <Schedule />
                         } 
                     />
+
+                    <Route 
+                        path="/profile" 
+                        element={
+                                <Profile />
+                        } 
+                    />
+
+                    
+
+                    
                 </Routes>
             </Router>
         </AuthProvider>

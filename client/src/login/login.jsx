@@ -46,6 +46,7 @@ const LoginPage = () => {
     
             if (response.ok) { 
                 setSuccess(data.message);
+                localStorage.setItem('token', data.token);
                 login(data.token); // Call the login function here
                 navigate('/'); // Redirect to the home page after successful login
             } else {
