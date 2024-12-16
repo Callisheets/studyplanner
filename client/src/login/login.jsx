@@ -25,6 +25,9 @@ const LoginPage = () => {
         setError('');
         setSuccess('');
     
+        console.log('Email:', email); // Log email
+        console.log('Password:', password); // Log password
+    
         if (!email || !password) {
             setError("Email and Password are required.");
             return;
@@ -46,7 +49,6 @@ const LoginPage = () => {
     
             if (response.ok) { 
                 setSuccess(data.message);
-                localStorage.setItem('token', data.token);
                 login(data.token); // Call the login function here
                 navigate('/'); // Redirect to the home page after successful login
             } else {
@@ -58,7 +60,6 @@ const LoginPage = () => {
     };
 
     return (
-        /*ito yung html */
         <div className="container">
             <div className="image-container">
                 <img src={img} alt="img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

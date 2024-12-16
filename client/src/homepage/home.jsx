@@ -19,6 +19,43 @@ const HomePage = () => {
     const { logout } = useAuth();
     const navigate = useNavigate();
 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setError('');
+        setSuccess('');
+    
+        if (!email || !password) {
+            setError("Email and Password are required.");
+            return;
+        }
+    
+        const payload = { email, password };
+    
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+    
+            const data = await response.json();
+            console.log('Login response:', data);
+    
+            if (response.ok) { 
+                setSuccess(data.message);
+                localStorage.setItem('token', data.token);
+                login(data.token); // Call the login function here
+                navigate('/'); // Redirect to the home page after successful login
+            } else {
+                setError(data.message); 
+            }
+        } catch (err) {
+            setError('An error occurred. Please try again.');
+        }
+    };
+
     const fetchNotes = async () => {
         const token = localStorage.getItem('token'); // Ensure this retrieves the token correctly
         if (!token || isLoggingOut) {

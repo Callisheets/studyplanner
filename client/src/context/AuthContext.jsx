@@ -1,48 +1,31 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+// src/context/AuthContext.js
+import React, { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext();
 
-export const useAuth = () => {
-    return useContext(AuthContext);
-};
-
 export const AuthProvider = ({ children }) => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser ] = useState(null);
-    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchUser  = async () => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                try {
-                    const response = await fetch('http://localhost:5000/api/auth/user', {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-                    const data = await response.json();
-                    console.log('API response:', data); // Log the API response
-                    if (data.success) {
-                        setUser (data.user); // Set the user data from the response
-                    } else {
-                        setUser (null); // Handle case where user is not found
-                    }
-                } catch (error) {
-                    console.error('Error fetching user:', error);
-                    setUser (null);
-                }
-            } else {
-                setUser (null); // No token means no user
-            }
-            setLoading(false); // Set loading to false after fetching
-        };
+    const login = (token) => {
+        localStorage.setItem('token', token);
+        setIsAuthenticated(true);
+        // Optionally, fetch user data here and set it
+    };
 
-        fetchUser (); // Call the fetchUser  function when the component mounts
-    }, []);
+    const logout = () => {
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+        setUser (null);
+    };
 
     return (
-        <AuthContext.Provider value={{ user, loading }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, user }}>
             {children}
         </AuthContext.Provider>
     );
+};
+
+export const useAuth = () => {
+    return useContext(AuthContext);
 };
