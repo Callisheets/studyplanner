@@ -20,7 +20,7 @@ const app = express();
 
 // Middleware setup
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:5173', 'https://8rw89145-5173.asse.devtunnels.ms'],
+    origin: ['http://localhost:3000', 'http://localhost:5173'],
     credentials: true, 
 }));
 app.use(helmet());

@@ -7,13 +7,13 @@ import logo from '../images/LogoVerify.png';
 const SignupPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState(''); // New state for name
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate(); 
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        const email = e.target.email.value; 
 
         // Send signup request
         try {
@@ -22,7 +22,7 @@ const SignupPage = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password: e.target.password.value }), 
+                body: JSON.stringify({ email, password, name }), // Include name in the request
             });
 
             const data = await response.json();
@@ -54,19 +54,26 @@ const SignupPage = () => {
     };
 
     return (
-        /*ito yung html */
         <div className="container">
             <div className="image-container">
                 <img src={img} alt="img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div className="signup-container">
-            <div className="logo-container">
+                <div className="logo-container">
                     <img src={logo} alt="Logo"/>
                 </div>
                 <h2>Sign Up</h2>
                 {error && <p className="error">{error}</p>}
                 {success && <p className="success">{success}</p>}
                 <form onSubmit={handleSignup}>
+                    <input
+                        type="text"
+                        name="name" 
+                        placeholder="Name" // New input for name
+                        value={name}
+                        onChange={(e) => setName(e.target.value)} 
+                        required
+                    />
                     <input
                         type="email"
                         name="email" 

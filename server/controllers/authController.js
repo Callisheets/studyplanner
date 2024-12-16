@@ -6,32 +6,38 @@ const { loginSchema, signupSchema } = require('../middlewares/validator');
 const { sendMail } = require('../middlewares/sendMail');
 const mongoose = require('mongoose');
 
+// Utility function for error responses
+const handleError = (res, error, message = 'An error occurred.') => {
+    console.error(message, error);
+    return res.status(500).json({ success: false, message });
+};
+
 // Signup function
 const signup = async (req, res) => {
-    const { error } = signupSchema.validate(req.body);
-    if (error) {
-        return res.status(400).json({ success: false, message: error.details[0].message });
+    const { email, password, name } = req.body; // Ensure name is included
+
+    // Validate input
+    if (!email || !password || !name) {
+        return res.status(400).json({ success: false, message: 'Email, password, and name are required.' });
     }
 
-    const { email, password } = req.body;
-
     try {
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ success: false, message: 'User already exists' });
+        // Check if the user already exists
+        const existingUser  = await User.findOne({ email });
+        if (existingUser ) {
+            return res.status(400).json({ success: false, message: 'User  already exists' });
         }
 
+        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({
-            email,
-            password: hashedPassword,
-        });
+        const newUser  = new User({ email, password: hashedPassword, name }); // Include name in the user model
 
-        await newUser.save();
-        res.status(201).json({ success: true, message: 'User registered successfully.' });
+        // Save the new user to the database
+        await newUser .save();
+        res.status(201).json({ success: true, message: 'User  registered successfully.' });
     } catch (error) {
-        console.error('Signup error:', error);
-        res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+        console.error('Signup error:', error); // Log the error for debugging
+        res.status(500).json({ success: false, message: 'An error occurred during signup.' });
     }
 };
 
@@ -40,6 +46,9 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
+        // Log the incoming request
+        console.log('Login request body:', req.body);
+
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
             return res.status(400).json({ success: false, message: 'Invalid credentials' });
@@ -50,16 +59,11 @@ const login = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        return res.status(200).json({
-            success: true,
-            message: 'Logged in successfully',
-            token,
-            userId: user._id,
-        });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.status(200).json({ success: true, message: 'Login successful', token });
     } catch (error) {
         console.error('Login error:', error);
-        return res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+        res.status(500).json({ success: false, message: 'Server error' });
     }
 };
 
@@ -82,37 +86,43 @@ const sendVerificationCode = async (req, res) => {
         user.verificationCode = verificationCode;
         await user.save();
 
-        await sendMail(email, 'Your Verification Code', `Your verification code is ${verificationCode}`);
-        res.status(200).json({ success: true, message: 'Verification code sent to your email' });
+        if (email) {
+            await sendMail(email, 'Your Verification Code', `Your verification code is ${verificationCode}`);
+            return res.status(200).json({ success: true, message: 'Verification code sent to your email' });
+        }
+        res.status(500).json({ success: false, message: 'Unable to send verification code. Please check your email address.' });
     } catch (error) {
-        console.error('Send verification code error:', error);
-        res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+        handleError(res, error, 'Send verification code error:');
     }
 };
 
 // Verify verification code function
 const verifyVerificationCode = async (req, res) => {
-    const { email, code } = req.body;
+    const { providedCode } = req.body; // Get the provided code from the request body
 
-    try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ success: false, message: 'User not found' });
-        }
-
-        if (user.verificationCode !== code) {
-            return res.status(400).json({ success: false, message: 'Invalid verification code' });
-        }
-
-        user.verified = true;
-        user.verificationCode = null;
-        await user.save();
-
-        res.status(200).json({ success: true, message: 'Account verified successfully' });
-    } catch (error) {
-        console.error('Verify verification code error:', error);
-        res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+    if (!providedCode) {
+        return res.status(400).json({ success: false, message: 'Verification code is required.' });
     }
+
+    // Assuming you have a way to get the user based on the session or token
+    const user = await User.findOne({ /* criteria to find user */ });
+    if (!user) {
+        return res.status(404).json({ success: false, message: 'User  not found.' });
+    }
+
+    const hashedProvidedCode = hmacProcess(providedCode, process.env.HMAC_VERIFICATION_CODE_SECRET);
+
+    // Compare the provided code with the stored verification code
+    if (user.verificationCode !== providedCode) {
+        return res.status(400).json({ success: false, message: 'Invalid verification code.' });
+    }
+
+    // If the code is valid, mark the user as verified
+    user.verified = true;
+    user.verificationCode = null; // Clear the verification code
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Account verified successfully.' });
 };
 
 // Create a new schedule
@@ -120,9 +130,8 @@ const createSchedule = async (req, res) => {
     const { event, date, time } = req.body;
     const userId = req.user.id;
 
-    // Validate input
     if (!event || !date || !time) {
-        return res.status(400).json({ message: 'Event, date, and time are required.' });
+        return res.status(400).json({ success: false, message: 'Event, date, and time are required.' });
     }
 
     try {
@@ -131,14 +140,12 @@ const createSchedule = async (req, res) => {
 
         const user = await User.findById(userId);
         if (user?.email) {
-            // Send email notification
             await sendMail(user.email, 'New Schedule Created', `Your schedule for "${event}" on ${new Date(date).toLocaleString()} at ${time} has been created.`);
         }
 
-        res.status(201).json({ schedule: newSchedule });
+        res.status(201).json({ success: true, schedule: newSchedule });
     } catch (error) {
-        console.error('Error creating schedule:', error);
-        res.status(500).json({ message: 'Error creating schedule', error: error.message });
+        handleError(res, error, 'Error creating schedule:');
     }
 };
 
@@ -150,13 +157,8 @@ const getUserSchedule = async (req, res) => {
         const schedules = await Schedule.find({ userId });
         res.status(200).json({ success: true, schedules });
     } catch (error) {
-        console.error('Error fetching schedules:', error);
-        res.status(500).json({ success: false, message: 'Error fetching schedules' });
+        handleError(res, error, 'Error fetching schedules:');
     }
-};
-
-module.exports = {
-    createSchedule,
 };
 
 module.exports = {
