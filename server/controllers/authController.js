@@ -14,30 +14,25 @@ const handleError = (res, error, message = 'An error occurred.') => {
 
 // Signup function
 const signup = async (req, res) => {
-    const { email, password, name } = req.body; // Ensure name is included
+    const { email, password, name } = req.body;
 
-    // Validate input
     if (!email || !password || !name) {
         return res.status(400).json({ success: false, message: 'Email, password, and name are required.' });
     }
 
     try {
-        // Check if the user already exists
-        const existingUser  = await User.findOne({ email });
-        if (existingUser ) {
-            return res.status(400).json({ success: false, message: 'User  already exists' });
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: 'User already exists.' });
         }
 
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser  = new User({ email, password: hashedPassword, name }); // Include name in the user model
+        const newUser = new User({ email, password: hashedPassword, name });
+        await newUser.save();
 
-        // Save the new user to the database
-        await newUser .save();
-        res.status(201).json({ success: true, message: 'User  registered successfully.' });
+        res.status(201).json({ success: true, message: 'User registered successfully.' });
     } catch (error) {
-        console.error('Signup error:', error); // Log the error for debugging
-        res.status(500).json({ success: false, message: 'An error occurred during signup.' });
+        handleError(res, error, 'Signup error:');
     }
 };
 
@@ -46,83 +41,81 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Log the incoming request
-        console.log('Login request body:', req.body);
-
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
-            return res.status(400).json({ success: false, message: 'Invalid credentials' });
+            return res.status(400).json({ success: false, message: 'Invalid credentials.' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ success: false, message: 'Invalid credentials' });
+            return res.status(400).json({ success: false, message: 'Invalid credentials.' });
         }
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.status(200).json({ success: true, message: 'Login successful', token });
+        res.status(200).json({ success: true, message: 'Login successful.', token });
     } catch (error) {
-        console.error('Login error:', error);
-        res.status(500).json({ success: false, message: 'Server error' });
+        handleError(res, error, 'Login error:');
     }
 };
 
 // Logout function
 const logout = (req, res) => {
-    res.status(200).json({ success: true, message: 'Logged out successfully' });
+    res.status(200).json({ success: true, message: 'Logged out successfully.' });
 };
 
 // Send verification code function
 const sendVerificationCode = async (req, res) => {
     const { email } = req.body;
 
+    if (!email) {
+        return res.status(400).json({ success: false, message: 'Email is required.' });
+    }
+
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ success: false, message: 'User not found' });
+            return res.status(404).json({ success: false, message: 'User not found.' });
+        }
+
+        if (user.verified) {
+            return res.status(400).json({ success: false, message: 'User is already verified.' });
         }
 
         const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+        await sendMail(user.email, 'Verification Code', `Your verification code is ${verificationCode}`);
+
         user.verificationCode = verificationCode;
+        user.verificationCodeValidation = Date.now();
         await user.save();
 
-        if (email) {
-            await sendMail(email, 'Your Verification Code', `Your verification code is ${verificationCode}`);
-            return res.status(200).json({ success: true, message: 'Verification code sent to your email' });
-        }
-        res.status(500).json({ success: false, message: 'Unable to send verification code. Please check your email address.' });
+        res.status(200).json({ success: true, message: 'Verification code sent successfully.' });
     } catch (error) {
-        handleError(res, error, 'Send verification code error:');
+        handleError(res, error, 'Error sending verification code:');
     }
 };
 
 // Verify verification code function
 const verifyVerificationCode = async (req, res) => {
-    const { providedCode } = req.body; // Get the provided code from the request body
+    const { providedCode } = req.body;
 
     if (!providedCode) {
         return res.status(400).json({ success: false, message: 'Verification code is required.' });
     }
 
-    // Assuming you have a way to get the user based on the session or token
-    const user = await User.findOne({ /* criteria to find user */ });
-    if (!user) {
-        return res.status(404).json({ success: false, message: 'User  not found.' });
+    try {
+        const user = await User.findOne({ verificationCode: providedCode });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'Invalid verification code or user not found.' });
+        }
+
+        user.verified = true;
+        user.verificationCode = null;
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Verification successful.' });
+    } catch (error) {
+        handleError(res, error, 'Error verifying verification code:');
     }
-
-    const hashedProvidedCode = hmacProcess(providedCode, process.env.HMAC_VERIFICATION_CODE_SECRET);
-
-    // Compare the provided code with the stored verification code
-    if (user.verificationCode !== providedCode) {
-        return res.status(400).json({ success: false, message: 'Invalid verification code.' });
-    }
-
-    // If the code is valid, mark the user as verified
-    user.verified = true;
-    user.verificationCode = null; // Clear the verification code
-    await user.save();
-
-    res.status(200).json({ success: true, message: 'Account verified successfully.' });
 };
 
 // Create a new schedule

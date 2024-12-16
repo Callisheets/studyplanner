@@ -15,9 +15,10 @@ const { sendMail } = require('./middlewares/sendMail');
 const cron = require('node-cron');
 const Schedule = require('./models/scheduleModel');
 const User = require('./models/userModel');
+const bodyParser = require('body-parser');
 
 const app = express();
-
+app.use(bodyParser.json()); // For parsing application/json
 // Middleware setup
 app.use(cors({
     origin: ['http://localhost:3000', 'http://localhost:5173'],
