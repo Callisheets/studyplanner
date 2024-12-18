@@ -1,21 +1,21 @@
 .schedule-container {
     font-size: 15px;
-    max-width: 1000px; /* Max width for the schedule container */
-    margin: 30px auto; /* Center the container */
+    max-width: 1000px; 
+    margin: 30px auto; 
     padding: 10px;
-    background-color:white; /* White background for the container */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color:white; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    min-height: 300px; /* Set a minimum height */
+    flex-direction: column; 
+    min-height: 300px; 
     align-items: center;
     position: relative;   
 }
 
 h1 {
-    text-align: center; /* Center the main heading */
-    color: black; /* Darker text color for contrast */
+    text-align: center; 
+    color: black; 
     margin-bottom: 20px;
     font-family:Arial, Helvetica, sans-serif;
 }
@@ -28,9 +28,9 @@ h2{
 }
 
 .event-form {
-    display: flex; /* Flexbox for the form layout */
-    justify-content: space-between; /* Space between inputs */
-    margin-bottom: 20px; /* Space below the form */
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 20px; 
     flex: 1;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -41,81 +41,81 @@ h2{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-height: 400px; /* Set a max height for the container */
-    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 400px; 
+    overflow-y: auto; 
 }
 
 .event-form input[type="text"],
 .event-form input[type="date"] {
-    padding: 10px; /* Padding for inputs */
-    margin-right: 10px; /* Space between inputs */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 4px; /* Rounded corners */
-    flex-grow: 1; /* Allow inputs to grow */
+    padding: 10px; 
+    margin-right: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    flex-grow: 1; 
     margin-bottom: 20px;
 }
 
 .event-form button {
-    padding: 10px; /* Padding for button */ 
+    padding: 10px; 
     background: #213a57;;
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
+    color: white; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
     font-size: 15px;
 }
 
 .event-form button:hover {
-    background-color: #000080; /* Darker green on hover */
+    background-color: #000080;
 }
 .event-list {
-    list-style-type: none; /* Remove bullet points */
-    padding: 0; /* Remove default padding */
+    list-style-type: none; 
+    padding: 0; 
     flex-grow: 1;
     gap: 20px;
     margin: 20px;
 }
 
 .event-list li {
-    padding: 10px; /* Padding for list items */
-    border-bottom: 5px solid #ccc; /* Bottom border for separation */
-    display: flex; /* Flexbox for event items */
-    justify-content: space-between; /* Space between text and button */
-    align-items: center; /* Center items vertically */
+    padding: 10px; 
+    border-bottom: 5px solid #ccc; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
     font-family: Arial, Helvetica, sans-serif;
 }
 .event-list li span {
-    flex-grow: 1; /* Ensure the text takes up available space */
-    text-align: left; /* Align the text to the left */
+    flex-grow: 1; 
+    text-align: left; 
 }
 
 
 .remove-button {
-    padding: 10px; /* Padding for remove button */
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 10px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
+    padding: 10px;
+    color: white;
+    border: none; 
+    border-radius: 10px; 
+    cursor: pointer; 
     background: #213a57;
     margin-left: 50px;
     font-size: 12px;
 }
 
 .remove-button:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333;
 }
 
 .home-button {
-    display: block; /* Make it a block element */
-    text-align: center; /* Center the text */
-    padding: 12px 20px; /* Add padding for a container feel */
-    background-color: #213a57;; /* Blue background */
-    color: white; /* White text */
-    border: 10px; /* No border */
-    border-radius: 15px; /* Rounded corners for a container look */
-    text-decoration: none; /* Remove underline */
-    font-weight: bold; /* Bold text */
-    transition: background-color 0.3s; /* Smooth transition */
+    display: block; 
+    text-align: center; 
+    padding: 12px 20px; 
+    background-color: #213a57;; 
+    color: white; 
+    border: 10px; 
+    border-radius: 15px; 
+    text-decoration: none; 
+    font-weight: bold; 
+    transition: background-color 0.3s;
     margin: 20px;
     top: 100px;
     font-family: Arial, Helvetica, sans-serif;
@@ -133,18 +133,18 @@ h2{
 }
 
 .event-list {
-    list-style-type: none; /* Remove bullet points */
-    padding: 0; /* Remove default padding */
+    list-style-type: none; 
+    padding: 0; 
     flex-grow: 1;
     gap: 20px;
 }
 
 .event-list li {
-    padding: 10px; /* Padding for list items */
-    border-bottom: 5px solid #ccc; /* Bottom border for separation */
-    display: flex; /* Flexbox for event items */
-    justify-content: space-between; /* Space between text and button */
-    align-items: center; /* Center items vertically */
+    padding: 10px; 
+    border-bottom: 5px solid #ccc; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
 }
 
 .events-container::-webkit-scrollbar {
@@ -173,7 +173,7 @@ h2{
 
     .event-form input[type="text"],
     .event-form input[type="date"] {
-        width: 100%; /* Ensure full width of inputs */
+        width: 100%; 
         margin-right: 0;
     }
     
@@ -183,7 +183,7 @@ h2{
     }
 
     .schedule-wrapper {
-        flex-direction: column; /* Stack sections vertically on smaller screens */
+        flex-direction: column; 
     }
 }
 
@@ -218,9 +218,9 @@ h2{
   }
   
   .schedule-wrapper {
-    display: flex; /* Create a horizontal split layout */
-    justify-content: space-between; /* Space between the two sections */
+    display: flex; 
+    justify-content: space-between; 
     max-width: 1000px;
     margin: 20px auto;
-    gap: 20px; /* Add space between sections */
+    gap: 20px;
 }

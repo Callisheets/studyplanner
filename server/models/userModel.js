@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: true, // Ensure this field is required
+        required: true, 
     },
     phone: {
         type: String,

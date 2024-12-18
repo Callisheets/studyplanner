@@ -10,7 +10,7 @@ import { useAuth } from '../context/AuthContext';
 const HomePage = () => {
     const [noteInput, setNoteInput] = useState('');
     const [notes, setNotes] = useState([]);
-    const [recentNotes, setRecentNotes] = useState([]); // New state for recent notes
+    const [recentNotes, setRecentNotes] = useState([]); 
     const [error, setError] = useState('');
     const [activeSidebarItem, setActiveSidebarItem] = useState('home');
     const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -46,8 +46,8 @@ const HomePage = () => {
             if (response.ok) { 
                 setSuccess(data.message);
                 localStorage.setItem('token', data.token);
-                login(data.token); // Call the login function here
-                navigate('/'); // Redirect to the home page after successful login
+                login(data.token); 
+                navigate('/');
             } else {
                 setError(data.message); 
             }
@@ -57,7 +57,7 @@ const HomePage = () => {
     };
 
     const fetchNotes = async () => {
-        const token = localStorage.getItem('token'); // Ensure this retrieves the token correctly
+        const token = localStorage.getItem('token'); 
         if (!token || isLoggingOut) {
             console.log('User  is not authenticated or is logging out. Skipping fetchNotes.');
             return;
@@ -66,7 +66,7 @@ const HomePage = () => {
         try {
             const response = await axios.get('http://localhost:5000/api/notes', {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Ensure the token is included here
+                    Authorization: `Bearer ${token}`,
                 },
             });
             setNotes(response.data.notes);
@@ -95,7 +95,7 @@ const HomePage = () => {
             // Update recent notes
             setRecentNotes(prevRecent => {
                 const updatedRecent = [response.data.note, ...prevRecent];
-                return updatedRecent.slice(0, 5); // Limit to 5 recent notes
+                return updatedRecent.slice(0, 5); 
             });
         } catch (error) {
             console.error('Error creating note:', error.response ? error.response.data : error);
@@ -111,7 +111,7 @@ const HomePage = () => {
                 },
             });
             setNotes(notes.filter(note => note._id !== noteId));
-            setRecentNotes(recentNotes.filter(note => note._id !== noteId)); // Remove from recent notes if deleted
+            setRecentNotes(recentNotes.filter(note => note._id !== noteId));
         } catch (error) {
             console.error('Error deleting note:', error.response ? error.response.data : error);
         }

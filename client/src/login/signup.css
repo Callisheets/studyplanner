@@ -49,7 +49,7 @@ body, * {
     align-items: center;
     
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    height: auto; /* Adjusted to fit content appropriately */
+    height: auto;
 }
 
 .auth-container h2,
@@ -129,7 +129,7 @@ body, * {
 .login-container p {
     font-size: 15px;
     color: #ffffff;
-    margin-top: 10px; /* Adds space between the login container and the paragraph */
+    margin-top: 10px;
 }
 
 .auth-container a,

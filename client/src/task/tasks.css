@@ -14,7 +14,7 @@ body, * {
     background-color: #1a2b3f;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Center-align all child elements */
+    text-align: center;
 }
 
 /* Heading style */
@@ -48,8 +48,8 @@ body, * {
     display: inline-block;
     padding: 10px 20px;
     font-size: 1em;
-    color:white; /* Black text color for better contrast */
-    background-color: #f4e04d; /* Yellow background */
+    color:white; 
+    background-color: #f4e04d; 
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -58,7 +58,7 @@ body, * {
 }
 
 .tasks-container button:hover {
-    background-color: #e4cd3a; /* Slightly darker yellow for hover effect */
+    background-color: #e4cd3a; 
 }
 
 /* Task list styling */
@@ -98,8 +98,8 @@ body, * {
 .home-button {
     display: inline-block;
     margin-right: 145px;
-    margin-top: -65px; /* Adjusted to raise the button further up */
-    margin-bottom: -20px; /* Space below the button for separation */
+    margin-top: -65px; 
+    margin-bottom: -20px; 
     text-align: center;
     padding: 10px 10px;
     font-size: 1em;

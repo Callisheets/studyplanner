@@ -7,7 +7,7 @@ import logo from '../images/LogoVerify.png';
 const SignupPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState(''); // New state for name
+    const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate(); 
@@ -22,7 +22,7 @@ const SignupPage = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password, name }), // Include name in the request
+                body: JSON.stringify({ email, password, name }),
             });
 
             const data = await response.json();
@@ -69,7 +69,7 @@ const SignupPage = () => {
                     <input
                         type="text"
                         name="name" 
-                        placeholder="Name" // New input for name
+                        placeholder="Name" 
                         value={name}
                         onChange={(e) => setName(e.target.value)} 
                         required

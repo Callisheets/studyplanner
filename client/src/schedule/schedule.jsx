@@ -8,8 +8,8 @@ const Schedule = () => {
     const [eventInput, setEventInput] = useState('');
     const [dateInput, setDateInput] = useState('');
     const [timeInput, setTimeInput] = useState('');
-    const token = localStorage.getItem('token'); // No need to store in state if it doesn't change
-    const userId = localStorage.getItem('userId'); // Same here
+    const token = localStorage.getItem('token'); 
+    const userId = localStorage.getItem('userId'); 
 
     // Fetch user schedules from the server
     const fetchSchedules = async () => {

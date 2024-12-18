@@ -23,7 +23,7 @@ exports.sendVerificationCode = async (req, res) => {
         }
 
         // Generate verification code
-        const codeValue = Math.floor(100000 + Math.random() * 900000).toString(); // Ensure 6-digit code
+        const codeValue = Math.floor(100000 + Math.random() * 900000).toString(); 
 
         // Send verification email
         const info = await sendMail(existingUser.email, 'Verification Code', `<h1>${codeValue}</h1>`);

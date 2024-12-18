@@ -13,7 +13,7 @@ router.patch('/send-verification-code', authController.sendVerificationCode);
 router.patch('/verify-verification-code', authController.verifyVerificationCode);
 router.get('/user', authenticateUser , async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select('name email phone'); // Select the fields you want to return
+        const user = await User.findById(req.user.id).select('name email phone');
         if (!user) {
             return res.status(404).json({ success: false, message: 'User  not found' });
         }

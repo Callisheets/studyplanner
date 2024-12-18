@@ -17,9 +17,10 @@ const Schedule = require('./models/scheduleModel');
 const User = require('./models/userModel');
 const bodyParser = require('body-parser');
 
+
 const app = express();
-app.use(bodyParser.json()); // For parsing application/json
-// Middleware setup
+app.use(bodyParser.json()); 
+
 app.use(cors({
     origin: ['http://localhost:3000', 'http://localhost:5173'],
     credentials: true, 
@@ -52,19 +53,19 @@ mongoose.connect(process.env.MONGO_URI)
     });
     
 // Cron job to send reminders for upcoming events
-cron.schedule('*/5 * * * *', async () => { // Check every 5 minutes
+cron.schedule('*/5 * * * *', async () => { 
     console.log('Cron job executed at:', new Date());
     try {
         const now = new Date();
         const tenMinutesLater = new Date(now);
-        tenMinutesLater.setMinutes(now.getMinutes() + 10); // Set the time to 10 minutes later
+        tenMinutesLater.setMinutes(now.getMinutes() + 10); 
 
         // Find events scheduled to start within the next 10 minutes
         const events = await Schedule.find({
             date: { $gte: now, $lt: tenMinutesLater },
         });
 
-        console.log(`Found ${events.length} upcoming events.`); // Log the number of events found
+        console.log(`Found ${events.length} upcoming events.`); 
 
         for (const event of events) {
             const user = await User.findById(event.userId);

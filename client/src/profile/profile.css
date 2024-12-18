@@ -14,18 +14,18 @@ h1 {
 }
 
 .profile-details {
-    margin-top: 20px; /* Space between heading and details */
+    margin-top: 20px;
 }
 
 .profile-field {
     display: flex; 
-    justify-content: space-between; /* Space between label and input */
-    margin-bottom: 15px; /* Space between fields */
+    justify-content: space-between; 
+    margin-bottom: 15px;
 }
 
 label {
-    font-weight: bold; /* Bold labels for emphasis */
-    color: #555; /* Slightly lighter color for labels */
+    font-weight: bold;
+    color: #555; 
     width: 30%; 
 }
 
@@ -52,7 +52,7 @@ span {
 }
 
 .edit-profile-button {
-    display: block; /* Make button a block element */
+    display: block; 
     width: 100%; 
     padding: 10px; 
     background-color: #007bff;
@@ -92,4 +92,5 @@ h1 {
 }
 
 .profile-details {
-    margin-top: 20
+    margin-top: 20;
+}

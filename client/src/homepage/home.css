@@ -11,13 +11,13 @@ body {
 
 
 .topbar {
-    background-color: #09203F; /* Set background color to a dark blue */
+    background-color: #09203F; 
     padding: 15px 20px; 
     display: flex;
     justify-content: space-between; 
     align-items: center; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a box shadow to the topbar */
-    position: sticky; /* Make the topbar sticky */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    position: sticky; 
     top: 0; 
     z-index: 10; 
     height: 60px;
@@ -25,7 +25,7 @@ body {
 
 /* Left icons styling */
 .left-icons {
-    display: flex; /* Display left icons as a flex container */
+    display: flex;
     align-items: center; 
 }
 
@@ -39,16 +39,16 @@ body {
 
 /* Search container styling */
 .search-container {
-    position: relative; /*
-    display: flex; /* Display search container as a flex container */
+    position: relative; 
+    display: flex; 
     align-items: center; 
 }
 
 
 /* Search bar styling */
 .search-bar {
-    padding: 10px 15px 10px 40px; /* Add padding to the search bar */
-    border: 1px solid #007bff; /* Add a border to the search bar */
+    padding: 10px 15px 10px 40px; 
+    border: 1px solid #007bff; 
     border-radius: 20px; 
     font-size: 14px; 
     width: 200px; 
@@ -80,7 +80,7 @@ body {
     font-size: 16px;
     width: 220px;
     height: calc(100vh - 60px);
-    background: linear-gradient(180deg, #09203F, #1a2e43); /* Gradient background */
+    background: linear-gradient(180deg, #09203F, #1a2e43); 
     position: fixed;
     top: 90px;
     left: 0;
@@ -88,24 +88,24 @@ body {
     overflow-y: auto;
     color: white;
     z-index: 5;
-    transition: background 0.3s; /* Smooth transition for background */
+    transition: background 0.3s; 
 }
 /* Sidebar ul styling */
 .sidebar ul {
-    list-style: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
+    list-style: none; 
+    padding: 0; 
 }
 
 
 /* Sidebar li styling */
 .sidebar li {
     padding: 15px 20px; 
-    display: flex; /* Display sidebar items as a flex container */
-    align-items: center; /* Align items to center */
+    display: flex; 
+    align-items: center; 
     cursor: pointer; 
     margin: 15px 0; 
-    border-radius: 8px; /* Rounded corners */
-    transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
+    border-radius: 8px; 
+    transition: background-color 0.3s, transform 0.2s; 
 }
 .sidebar li .sidebar-icon {
     margin-right: 10px; 
@@ -114,14 +114,14 @@ body {
 /* Sidebar li hover styling */
 .sidebar li:hover {
     background-color: #094f9a; 
-    transform: scale(1.02); /* Slightly enlarge on hover */
+    transform: scale(1.02); 
 }
 /* Sidebar a styling */
 .sidebar li a {
     color: white;
     text-decoration: none; 
-    display: flex; /* Flex for icon and text alignment */
-    align-items: center; /* Center align items */
+    display: flex; 
+    align-items: center; 
 }
 
 /* Sidebar open styling */
@@ -130,14 +130,14 @@ body {
 }
 .sidebar li .sidebar-icon {
     margin-right: 10px; 
-    width: 20px; /* Set a fixed width for icons */
+    width: 20px; 
     height: 20px;
 }
 
 
 /* Sidebar closed styling */
 .sidebar.closed {
-    transform: translateX(-100%); /* Move the sidebar to the left by 100% */
+    transform: translateX(-100%); 
 }
 
 /* Main content styling */
@@ -148,7 +148,7 @@ body {
     transition: margin-left 0.3s ease; 
 }
 .note-section {
-    margin-top: 60px; /* Adjust this value to increase/decrease space */
+    margin-top: 60px; 
 }
 
 /* When sidebar is closed */
@@ -165,7 +165,7 @@ body {
     padding: 20px; 
     background: #1a2e43; 
     border-radius: 12px;  
-    max-width: 1000px; /* Adjust this value to change the maximum width */
+    max-width: 1000px; 
     width: 100%; 
     margin: 20px auto; 
     transition: transform 0.3s; 
@@ -196,7 +196,7 @@ textarea {
 
 /* Textarea focus effect */
 textarea:focus {
-    border-color: #0056b3; /* Darker blue on focus */
+    border-color: #0056b3; 
     outline: none; 
     box-shadow: 0 0 5px rgba(0, 91, 187, 0.5); 
 }
@@ -204,8 +204,8 @@ textarea:focus {
 
 
 .notes-list {
-    list-style: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
+    list-style: none; 
+    padding: 0; 
 }
     .button {
 
@@ -377,14 +377,14 @@ textarea:focus {
         margin-bottom: 20px;
     }
     .right-icons {
-        display: flex; /* Use flexbox for alignment */
-        align-items: center; /* Center items vertically */
-        gap: 15px; /* Add space between icons */
+        display: flex; 
+        align-items: center; 
+        gap: 15px; 
     }
     
     .profile-icon {
-        width: 24px; /* Set a fixed width for the profile icon */
-        height: 24px; /* Set a fixed height for the profile icon */
-        color: white; /* Set the color of the profile icon */
-        cursor: pointer; /* Change cursor to pointer on hover */
+        width: 24px; 
+        height: 24px; 
+        color: white;
+        cursor: pointer; 
     }

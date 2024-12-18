@@ -3,10 +3,10 @@ body {
     padding: 0;
     height: 100%;
     width: 100%;
-    overflow: hidden; /* Optional: To prevent scrollbars */
+    overflow: hidden; 
 }
 
 .container {
-    flex: 1; /* Makes the container expand to fill the body */
-    overflow: auto; /* Allows scrolling only if content overflows */
+    flex: 1; 
+    overflow: auto; 
 }

@@ -21,7 +21,7 @@ const createFlashcard = async (req, res) => {
 
 const getFlashcards = async (req, res) => {
     try {
-        const flashcards = await Flashcard.find({ userId: req.user.id }); // Assuming you have a userId field
+        const flashcards = await Flashcard.find({ userId: req.user.id }); 
         res.status(200).json({ success: true, flashcards });
     } catch (error) {
         console.error('Error fetching flashcards:', error);
@@ -30,9 +30,9 @@ const getFlashcards = async (req, res) => {
 };
 
 const handleDelete = async (req, res) => {
-    const { id } = req.params; // Get the ID from the request parameters
+    const { id } = req.params; 
     try {
-        const flashcard = await Flashcard.findByIdAndDelete(id); // Find and delete the flashcard
+        const flashcard = await Flashcard.findByIdAndDelete(id);
         if (!flashcard) {
             return res.status(404).json({ success: false, message: 'Flashcard not found' });
         }

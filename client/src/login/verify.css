@@ -63,7 +63,7 @@ button {
     color: #fff;
     background: linear-gradient(145deg, #14002e, #150061);
     border: none;
-    border-radius: 50px; /* Fully rounded button */
+    border-radius: 50px; 
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -74,7 +74,7 @@ button {
 
 /* Add a hover effect for the bubble */
 button:hover {
-    transform: scale(1.1); /* Slightly increase the size */
+    transform: scale(1.1);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 

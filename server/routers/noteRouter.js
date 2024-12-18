@@ -15,7 +15,7 @@ router.post('/notes', verifyToken, async (req, res) => {
     try {
         const newNote = new Note({
             content,
-            user: req.user.id, // `req.user` is populated by `verifyToken`
+            user: req.user.id,
         });
 
         await newNote.save();

@@ -4,14 +4,14 @@ import './verify.css';
 import logo from '../images/LogoVerify.png';
 
 const VerifyCodePage = () => {
-    const [code, setCode] = useState(''); // State to hold the verification code
-    const [message, setMessage] = useState({ type: '', text: '' }); // State for both success and error messages
-    const navigate = useNavigate(); // Hook to navigate between routes
+    const [code, setCode] = useState(''); 
+    const [message, setMessage] = useState({ type: '', text: '' });
+    const navigate = useNavigate();
 
     // Function to handle verification code submission
     const handleVerifyCode = async (e) => {
-        e.preventDefault(); // Prevent default form submission behavior
-        setMessage({ type: '', text: '' }); // Clear previous messages
+        e.preventDefault(); 
+        setMessage({ type: '', text: '' }); 
 
         if (!code) {
             setMessage({ type: 'error', text: 'Verification code is required.' });
@@ -28,8 +28,8 @@ const VerifyCodePage = () => {
             });
             
             if (!response.ok) {
-                const errorText = await response.text(); // Get the response as text
-                console.error('Error response:', errorText); // Log the error response
+                const errorText = await response.text(); 
+                console.error('Error response:', errorText);
                 throw new Error('Network response was not ok');
             }
             
@@ -38,7 +38,7 @@ const VerifyCodePage = () => {
             if (data.success) {
                 setMessage({ type: 'success', text: data.message });
                 alert('Verification successful! Redirecting to the login page.');
-                setTimeout(() => navigate('/login'), 2000); // Redirect to login page
+                setTimeout(() => navigate('/login'), 2000); 
             } else {
                 setMessage({ type: 'error', text: data.message });
             }
@@ -61,7 +61,7 @@ const VerifyCodePage = () => {
                     type="text"
                     placeholder="Verification Code"
                     value={code}
-                    onChange={(e) => setCode(e.target.value)} // Update code state on input change
+                    onChange={(e) => setCode(e.target.value)} 
                     required
                 />
                 <button type="submit">Verify Code</button>

@@ -6,7 +6,7 @@ const { sendMail } = require('../middlewares/sendMail');
 // Create a new schedule
 const createSchedule = async (req, res) => {
     const { event, date, time } = req.body;
-    const userId = req.user?.id; // Ensure `req.user` exists
+    const userId = req.user?.id; 
 
     // Validate input
     if (!event || !date || !time) {
@@ -15,7 +15,7 @@ const createSchedule = async (req, res) => {
 
     try {
         // Parse and validate the date
-        const scheduleDate = new Date(date + 'T' + time); // Combine date and time
+        const scheduleDate = new Date(date + 'T' + time);
         if (isNaN(scheduleDate.getTime())) {
             return res.status(400).json({ message: 'Invalid date format.' });
         }
@@ -23,7 +23,7 @@ const createSchedule = async (req, res) => {
         const newSchedule = new Schedule({ event, date: scheduleDate, time, userId });
         await newSchedule.save();
 
-        console.log(`Schedule created: ${newSchedule}`); // Log the created schedule
+        console.log(`Schedule created: ${newSchedule}`);
 
         // Fetch the user's email and send notification if email exists
         const user = await User.findById(userId);
@@ -44,7 +44,7 @@ const createSchedule = async (req, res) => {
 
 // Get schedules for the authenticated user
 const getUserSchedule = async (req, res) => {
-    const userId = req.user?.id; // Ensure `req.user` exists
+    const userId = req.user?.id;
 
     try {
         // Fetch all schedules for the authenticated user, sorted by date and time
