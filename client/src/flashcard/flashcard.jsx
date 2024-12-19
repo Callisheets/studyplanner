@@ -159,7 +159,7 @@ const FlashCard = () => {
             <nav className={`sidebar ${isSidebarVisible ? 'open' : 'closed'}`} id="sidebar">
                 <ul>
                     <li id="home" className={`sidebar-item ${activeSidebarItem === 'home' ? 'active' : ''}`} onClick={() => setActiveSidebarItem('home')}>
-                        <Link to="/home" className="sidebar-link">
+                        <Link to="/" className="sidebar-link">
                             <FontAwesomeIcon icon={faHome} className="sidebar-icon" /> Home
                         </Link>
                     </li>

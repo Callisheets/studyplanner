@@ -25,5 +25,4 @@ router.get('/user', authenticateUser , async (req, res) => {
 });
 
 
-
 module.exports = router;

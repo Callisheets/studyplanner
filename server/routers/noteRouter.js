@@ -37,5 +37,19 @@ router.get('/notes', verifyToken, async (req, res) => {
     }
 });
 
+router.delete('/notes/:id', verifyToken, async (req, res) => {
+    const { id } = req.params; 
+    try {
+        const note = await Note.findByIdAndDelete(id);
+        if (!note) {
+            return res.status(404).json({ success: false, message: 'Note not found' });
+        }
+        res.status(200).json({ success: true, message: 'Note deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting note:', error);
+        res.status(500).json({ success: false, message: 'Error deleting note', details: error.message });
+    }
+});
+
 // Export the router
 module.exports = router;
