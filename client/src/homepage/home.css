@@ -1,28 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
 
-body {
-    font-family: 'Montserrat', sans-serif; 
-    margin: 0; 
-    padding: 0; 
-    background-color: white;
-    font-weight: bold;
-}
-
-
-.topbar {
-    background-color: #09203F; 
-    padding: 15px 20px; 
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    position: sticky; 
-    top: 0; 
-    z-index: 10; 
-    height: 60px;
-}
-
 /* Left icons styling */
 .left-icons {
     display: flex;
@@ -74,22 +52,6 @@ body {
 }
 /* Right icons styling */
 
-
-/* Sidebar styling */
-.sidebar {
-    font-size: 16px;
-    width: 220px;
-    height: calc(100vh - 60px);
-    background: linear-gradient(180deg, #09203F, #1a2e43); 
-    position: fixed;
-    top: 90px;
-    left: 0;
-    padding: 0;
-    overflow-y: auto;
-    color: white;
-    z-index: 5;
-    transition: background 0.3s; 
-}
 /* Sidebar ul styling */
 .sidebar ul {
     list-style: none; 
